@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClinicFlow - Staff schedule</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 32px auto; padding: 0 16px; color: #1f2937; }
+    h1 { font-size: 22px; }
+    .row { display: flex; gap: 12px; margin: 12px 0; }
+    select, input { padding: 8px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; }
+    button { padding: 6px 10px; margin-right: 6px; border: 1px solid #94a3b8; background: #fff; border-radius: 6px; cursor: pointer; }
+    .booked { color: #1d4ed8; }
+    .attended { color: #15803d; }
+    .cancelled { color: #b91c1c; }
+    nav a { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Patient booking page</a></nav>
+  <h1>Staff schedule</h1>
+  <div class="row">
+    <select id="clinic"></select>
+    <input id="date" type="date">
+  </div>
+  <table>
+    <thead><tr><th>Time</th><th>Patient</th><th>Mobile</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <script>
+    const clinicEl = document.getElementById('clinic');
+    const dateEl = document.getElementById('date');
+    const rowsEl = document.getElementById('rows');
+
+    function pad(h) { return String(h).padStart(2, '0') + ':00'; }
+
+    async function loadClinics() {
+      const res = await fetch('/api/clinics');
+      const clinics = await res.json();
+      clinicEl.innerHTML = clinics.map(c => `<option value="${c.id}">${c.name} (${c.suburb})</option>`).join('');
+    }
+
+    async function load() {
+      if (!clinicEl.value || !dateEl.value) return;
+      const res = await fetch(`/api/bookings?clinic_id=${clinicEl.value}&date=${dateEl.value}`);
+      const bookings = await res.json();
+      rowsEl.innerHTML = '';
+      bookings.forEach(b => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${pad(b.slot_hour)}</td><td></td><td></td><td class="${b.status}">${b.status}</td><td></td>`;
+        tr.children[1].textContent = b.patient_name;
+        tr.children[2].textContent = b.mobile;
+        ['attended', 'cancelled'].forEach(status => {
+          const btn = document.createElement('button');
+          btn.textContent = status === 'attended' ? 'Mark attended' : 'Cancel';
+          btn.onclick = async () => {
+            await fetch(`/api/bookings/${b.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+            load();
+          };
+          tr.children[4].appendChild(btn);
+        });
+        rowsEl.appendChild(tr);
+      });
+    }
+
+    clinicEl.onchange = load;
+    dateEl.onchange = load;
+    dateEl.value = new Date().toISOString().slice(0, 10);
+    loadClinics().then(load);
+  </script>
+</body>
+</html>
