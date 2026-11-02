@@ -1,0 +1,34 @@
+services:
+  clinicflow-api:
+    build: ./app/api
+    depends_on:
+      clinicflow-db:
+        condition: service_healthy
+    ports:
+      - "5001:5000"
+    environment:
+      DB_HOST: clinicflow-db
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+    volumes:
+      - ./db/schema.sql:/app/schema.sql:ro
+
+  
+  clinicflow-db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mysql-data:
