@@ -1,0 +1,26 @@
+name: Build ClinicFlow Docker Image
+description: Build the Flask API image
+
+inputs:
+  image-name:
+    description: Docker image name and tag
+    required: true
+
+  build-context:
+    description: Docker build context path
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Build Docker image
+      shell: bash
+
+      env:
+        IMAGE_NAME: ${{ inputs.image-name }}
+        BUILD_CONTEXT: ${{ inputs.build-context }}
+      run: docker build -t "$IMAGE_NAME" "$BUILD_CONTEXT"
+
+
+
+     

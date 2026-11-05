@@ -1,0 +1,22 @@
+name: ClinicFlow CI
+on:
+    pull_request:
+    push:
+        branches:
+            - main  
+
+jobs:
+    docker-build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+    
+            - name: Build Docker Image
+              uses: ./.github/actions/docker-build
+              with:
+                  image-name: clinicflow-api:test
+                  build-context: ./app/api
+                  
+            
