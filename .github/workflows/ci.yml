@@ -18,5 +18,11 @@ jobs:
               with:
                   image-name: clinicflow-api:test
                   build-context: ./app/api
-                  
             
+            - name: Validate Docker Compose
+              env:
+                  MYSQL_ROOT_PASSWORD: ci-root-placeholder
+                  MYSQL_DATABASE: clinicflow
+                  MYSQL_USER: clinicflow_user
+                  MYSQL_PASSWORD: ci-password-placeholder
+              run: docker compose config --quiet
