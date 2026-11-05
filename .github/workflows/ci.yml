@@ -9,6 +9,12 @@ jobs:
     docker-build:
         runs-on: ubuntu-latest
 
+        env:
+            MYSQL_ROOT_PASSWORD: ci-root-password
+            MYSQL_DATABASE: clinicflow
+            MYSQL_USER: clinicflow_user
+            MYSQL_PASSWORD: ci-password-password
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -20,9 +26,12 @@ jobs:
                   build-context: ./app/api
             
             - name: Validate Docker Compose
-              env:
-                  MYSQL_ROOT_PASSWORD: ci-root-placeholder
-                  MYSQL_DATABASE: clinicflow
-                  MYSQL_USER: clinicflow_user
-                  MYSQL_PASSWORD: ci-password-placeholder
               run: docker compose config --quiet
+
+            - name: Start Containers
+              run: docker compose up -d --no-build
+
+            - name: Test API Health
+              run: |
+                docker compose exec -T clinicflow-api python -c \
+                    "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=10)"

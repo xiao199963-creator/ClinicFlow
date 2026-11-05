@@ -1,5 +1,6 @@
 services:
   clinicflow-api:
+    image: clinicflow-api:test
     build: ./app/api
     depends_on:
       clinicflow-db:
