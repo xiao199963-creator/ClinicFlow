@@ -18,12 +18,12 @@ locals {
   public_subnets = {
     public_a = {
       cidr_number = 1
-      az          = "ap-southeast-2a"
+      az          = var.availability_zones[0]
     }
 
     public_b = {
       cidr_number = 2
-      az          = "ap-southeast-2b"
+      az          = var.availability_zones[1]
     }
   }
 }
@@ -46,12 +46,12 @@ locals {
   private_web_subnets = {
     web_a = {
       cidr_number = 3
-      az          = "ap-southeast-2a"
+      az          = var.availability_zones[0]
     }
 
     web_b = {
       cidr_number = 4
-      az          = "ap-southeast-2b"
+      az          = var.availability_zones[1]
     }
   }
 }
@@ -74,12 +74,12 @@ locals {
   private_api_subnets = {
     api_a = {
       cidr_number = 5
-      az          = "ap-southeast-2a"
+      az          = var.availability_zones[0]
     }
 
     api_b = {
       cidr_number = 6
-      az          = "ap-southeast-2b"
+      az          = var.availability_zones[1]
     }
   }
 }
@@ -103,12 +103,12 @@ locals {
   private_data_subnets = {
     data_a = {
       cidr_number = 7
-      az          = "ap-southeast-2a"
+      az          = var.availability_zones[0]
     }
 
     data_b = {
       cidr_number = 8
-      az          = "ap-southeast-2b"
+      az          = var.availability_zones[1]
     }
   }
 }
@@ -163,6 +163,8 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_route_table" "private_data" {
   vpc_id = aws_vpc.main.id
+  # Explicitly enforce no routes beyond AWS's implicit local route.
+  route = []
 
   tags = {
     Name        = "clinicflow-${var.environment}-private-data-rt"
@@ -198,7 +200,7 @@ resource "aws_route_table_association" "private_web" {
   for_each = aws_subnet.private_web
 
   subnet_id      = each.value.id
-  route_table_id = aws_route_table.private_web.id
+  route_table_id = var.high_availability && each.key == "web_b" ? aws_route_table.private_web_b[0].id : aws_route_table.private_web.id
 }
 
 resource "aws_route_table" "private_api" {
@@ -220,7 +222,7 @@ resource "aws_route_table_association" "private_api" {
   for_each = aws_subnet.private_api
 
   subnet_id      = each.value.id
-  route_table_id = aws_route_table.private_api.id
+  route_table_id = var.high_availability && each.key == "api_b" ? aws_route_table.private_api_b[0].id : aws_route_table.private_api.id
 }
 
 resource "aws_eip" "nat_a" {
@@ -246,4 +248,38 @@ resource "aws_nat_gateway" "nat_a" {
   }
 
   depends_on = [aws_internet_gateway.main]
+}
+
+resource "aws_eip" "nat_b" {
+  count  = var.high_availability ? 1 : 0
+  domain = "vpc"
+  tags   = { Name = "clinicflow-${var.environment}-nat-eip-b" }
+}
+
+resource "aws_nat_gateway" "nat_b" {
+  count         = var.high_availability ? 1 : 0
+  allocation_id = aws_eip.nat_b[0].id
+  subnet_id     = aws_subnet.public["public_b"].id
+  tags          = { Name = "clinicflow-${var.environment}-nat-b" }
+  depends_on    = [aws_internet_gateway.main]
+}
+
+resource "aws_route_table" "private_web_b" {
+  count  = var.high_availability ? 1 : 0
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_b[0].id
+  }
+  tags = { Name = "clinicflow-${var.environment}-web-b-rt" }
+}
+
+resource "aws_route_table" "private_api_b" {
+  count  = var.high_availability ? 1 : 0
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_b[0].id
+  }
+  tags = { Name = "clinicflow-${var.environment}-api-b-rt" }
 }
