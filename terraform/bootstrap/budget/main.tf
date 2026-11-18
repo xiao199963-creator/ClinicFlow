@@ -1,9 +1,9 @@
 resource "aws_budgets_budget" "clinicflow_budget" {
-  name              = "clinicflow-budget"
-  budget_type       = "COST"
-  limit_amount      = var.monthly_budget
-  limit_unit        = "USD"
-  time_unit         = "MONTHLY"
+  name         = "clinicflow-budget"
+  budget_type  = "COST"
+  limit_amount = var.monthly_budget
+  limit_unit   = "USD"
+  time_unit    = "MONTHLY"
 
   notification {
     comparison_operator        = "GREATER_THAN"
@@ -22,8 +22,8 @@ resource "aws_budgets_budget" "clinicflow_budget" {
   }
 
   tags = {
-    Project = "clinicflow"
+    Project   = "clinicflow"
     ManagedBy = "Terraform"
-    Purpose = "Budget"
+    Purpose   = "Budget"
   }
 }
