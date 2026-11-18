@@ -47,3 +47,28 @@ jobs:
 
                 docker compose logs --no-color --tail=50
                 exit 1
+
+
+    terraform-validate:
+        name: Terraform Validate
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: "1.16.1"
+
+            - name: Terraform Format Check
+              run: terraform fmt -check -recursive terraform
+
+            - name: Terraform Init and Validate
+              run: |
+                  for env in dev staging prod; do
+                    echo "Validating $env..."
+                    terraform -chdir=terraform/environments/$env init -backend=false
+                    terraform -chdir=terraform/environments/$env validate
+                  done
