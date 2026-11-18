@@ -1,0 +1,14 @@
+variable "environment" { type = string }
+variable "aws_region" { type = string }
+variable "account_id" { type = string }
+variable "vpc_id" { type = string }
+variable "cluster_name" { type = string }
+variable "service_names" { type = map(string) }
+variable "desired_count" { type = number }
+variable "database_cluster_id" { type = string }
+variable "load_balancer_arn_suffixes" { type = map(string) }
+variable "target_group_arn_suffixes" { type = map(string) }
+variable "data_kms_key_arn" { type = string }
+variable "log_kms_key_arn" { type = string }
+variable "alarm_email" { type = string }
+variable "log_retention_days" { type = number }
