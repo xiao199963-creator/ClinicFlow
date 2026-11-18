@@ -1,14 +1,36 @@
+# system data
 .DS_Store
+.history/
+
+# Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
-.env
-.env.*
-!.env.example
-*.log
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Node.js 
 node_modules/
-.history/
+
+# environment
+.env
+.env.*
+
+# logs
+*.log
+crash.log
+
+# Terraform 
+**/.terraform/
+*.tfstate
+*.tfvars
+*.tfvars.json
+backend.hcl
+*.tfplan
+*.plan
+*.plan.json
+*.tfplan.json
+.terraform-plans/
+
