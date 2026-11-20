@@ -52,7 +52,7 @@ resource "aws_ecs_task_definition" "main" {
     linuxParameters        = { capabilities = { drop = ["ALL"] } }
     portMappings           = [{ containerPort = each.value, hostPort = each.value, protocol = "tcp" }]
     mountPoints            = [{ sourceVolume = "tmp", containerPath = "/tmp", readOnly = false }]
-    environment            = [for name, value in local.environment[each.key] : { name = name, value = value }]
+    environment            = [for name, value in merge(local.environment[each.key], { PORT = tostring(each.value) }) : { name = name, value = value }]
     logConfiguration = {
       logDriver = "awslogs"
       options = {

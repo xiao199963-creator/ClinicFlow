@@ -1,4 +1,18 @@
 services:
+  clinicflow-web:
+    build: ./app/web
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - clinicflow-api
+    environment:
+      API_UPSTREAM: http://clinicflow-api:5000
+      LOCAL_STAFF_ACCESS: "1"
+    read_only: true
+    cap_drop: [ALL]
+    tmpfs:
+      - /tmp:mode=1777
+
   clinicflow-api:
     image: clinicflow-api:test
     build: ./app/api
@@ -6,7 +20,11 @@ services:
       clinicflow-db:
         condition: service_healthy
     ports:
-      - "5001:5000"
+      - "127.0.0.1:5001:5000"
+    read_only: true
+    cap_drop: [ALL]
+    tmpfs:
+      - /tmp:mode=1777
     environment:
       DB_HOST: clinicflow-db
       DB_USER: ${MYSQL_USER}

@@ -10,14 +10,21 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            MYSQL_ROOT_PASSWORD: ci-root-password
             MYSQL_DATABASE: clinicflow
             MYSQL_USER: clinicflow_user
-            MYSQL_PASSWORD: ci-password-password
 
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
+
+            - name: Generate passwords for the disposable Compose database
+              shell: bash
+              run: |
+                for name in MYSQL_ROOT_PASSWORD MYSQL_PASSWORD; do
+                  value=$(openssl rand -hex 32)
+                  echo "::add-mask::$value"
+                  echo "$name=$value" >> "$GITHUB_ENV"
+                done
     
             - name: Build Docker Image
               uses: ./.github/actions/docker-build
@@ -29,7 +36,9 @@ jobs:
               run: docker compose config --quiet
 
             - name: Start Containers
-              run: docker compose up -d --no-build
+              run: |
+                docker compose build clinicflow-web
+                docker compose up -d --no-build
 
             - name: Test API Health
               run: |
