@@ -19,10 +19,18 @@ variable "desired_count" {
 variable "web_port" {
   type    = number
   default = 8080
+  validation {
+    condition     = floor(var.web_port) == var.web_port && var.web_port >= 1024 && var.web_port <= 65535
+    error_message = "Choose an unprivileged TCP port from 1024 to 65535 for the web container."
+  }
 }
 variable "api_port" {
   type    = number
   default = 5000
+  validation {
+    condition     = floor(var.api_port) == var.api_port && var.api_port >= 1024 && var.api_port <= 65535
+    error_message = "Choose an unprivileged TCP port from 1024 to 65535 for the api container."
+  }
 }
 variable "cpu" {
   type    = number

@@ -1,5 +1,6 @@
 locals {
-  prefix = "clinicflow-${var.environment}"
+  prefix               = "clinicflow-${var.environment}"
+  task_definition_arns = [for tier in ["web", "api"] : "arn:aws:ecs:${var.aws_region}:${var.account_id}:task-definition/${local.prefix}-${tier}:*"]
   ecs_trust = jsonencode({ Version = "2012-10-17", Statement = [{
     Effect    = "Allow"
     Principal = { Service = "ecs-tasks.amazonaws.com" }
@@ -22,6 +23,12 @@ resource "aws_iam_role_policy" "execution" {
   policy = jsonencode({ Version = "2012-10-17", Statement = [
     { Effect = "Allow", Action = ["ecr:GetAuthorizationToken"], Resource = "*" },
     { Effect = "Allow", Action = ["ecr:BatchCheckLayerAvailability", "ecr:GetDownloadUrlForLayer", "ecr:BatchGetImage"], Resource = var.repository_arns[each.key] },
+    { Effect = "Allow", Action = ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey*", "kms:ReEncrypt*"], Resource = var.log_kms_key_arn,
+      Condition = { StringEquals = {
+        "kms:ViaService"                     = "logs.${var.aws_region}.amazonaws.com"
+        "kms:EncryptionContext:aws:logs:arn" = "arn:aws:logs:${var.aws_region}:${var.account_id}:log-group:/clinicflow/${var.environment}/${each.key}"
+      } }
+    },
     { Effect = "Allow", Action = ["logs:CreateLogStream", "logs:PutLogEvents"], Resource = "arn:aws:logs:${var.aws_region}:${var.account_id}:log-group:/clinicflow/${var.environment}/${each.key}:*" }
   ] })
 }
@@ -40,18 +47,19 @@ resource "aws_iam_role_policy" "api_database" {
   }] })
 }
 
-# Only an operator-created, one-off initialization task may use this role.
-# The application and GitHub deployment roles cannot assume/pass it.
+# Phase 1 uses a private MySQL client operated by a designated administrator.
 resource "aws_iam_role" "database_bootstrap" {
-  name               = "${local.prefix}-database-bootstrap"
-  assume_role_policy = local.ecs_trust
+  name = "${local.prefix}-database-bootstrap"
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{
+    Effect = "Allow", Action = "sts:AssumeRole", Principal = { AWS = var.bootstrap_operator_role_arn }
+  }] })
 }
 resource "aws_iam_role_policy" "database_bootstrap" {
   role = aws_iam_role.database_bootstrap.id
   policy = jsonencode({ Version = "2012-10-17", Statement = [
     { Effect = "Allow", Action = ["secretsmanager:GetSecretValue"], Resource = var.master_secret_arn },
     { Effect = "Allow", Action = ["kms:Decrypt"], Resource = var.data_kms_key_arn,
-    Condition = { StringEquals = { "kms:ViaService" = "secretsmanager.${var.aws_region}.amazonaws.com" } } }
+    Condition = { StringEquals = { "kms:ViaService" = "secretsmanager.${var.aws_region}.amazonaws.com", "kms:EncryptionContext:SecretARN" = var.master_secret_arn } } }
   ] })
 }
 
@@ -69,12 +77,19 @@ resource "aws_iam_role" "deploy" {
 }
 resource "aws_iam_role_policy" "deploy" {
   role = aws_iam_role.deploy.id
-  policy = jsonencode({ Version = "2012-10-17", Statement = [
-    { Effect = "Allow", Action = ["ecs:DescribeServices", "ecs:UpdateService"], Resource = [for tier in ["web", "api"] : "arn:aws:ecs:${var.aws_region}:${var.account_id}:service/${local.prefix}/${local.prefix}-${tier}"] },
-    { Effect = "Allow", Action = ["ecs:DescribeTaskDefinition", "ecs:TagResource"], Resource = [for tier in ["web", "api"] : "arn:aws:ecs:${var.aws_region}:${var.account_id}:task-definition/${local.prefix}-${tier}:*"] },
-    { Effect = "Allow", Action = ["ecs:RegisterTaskDefinition"], Resource = "*",
+  policy = jsonencode({ Version = "2012-10-17", Statement = concat([
+    { Effect = "Allow", Action = "ecs:DescribeServices", Resource = [for tier in ["web", "api"] : "arn:aws:ecs:${var.aws_region}:${var.account_id}:service/${local.prefix}/${local.prefix}-${tier}"] },
+    # DescribeTaskDefinition does not support resource-level permissions.
+    { Effect = "Allow", Action = "ecs:DescribeTaskDefinition", Resource = "*" },
+    { Effect = "Allow", Action = "ecs:RegisterTaskDefinition", Resource = local.task_definition_arns,
     Condition = { StringEquals = { "aws:RequestTag/Project" = "clinicflow", "aws:RequestTag/Environment" = var.environment } } },
-    { Effect = "Allow", Action = ["iam:PassRole"], Resource = concat(values(aws_iam_role.execution)[*].arn, values(aws_iam_role.task)[*].arn),
+    { Effect = "Allow", Action = "ecs:TagResource", Resource = local.task_definition_arns,
+    Condition = { StringEquals = { "ecs:CreateAction" = "RegisterTaskDefinition" } } },
+    { Effect = "Allow", Action = "iam:PassRole", Resource = concat(values(aws_iam_role.execution)[*].arn, values(aws_iam_role.task)[*].arn),
     Condition = { StringEquals = { "iam:PassedToService" = "ecs-tasks.amazonaws.com" } } }
-  ] })
+    ], [for tier in ["web", "api"] : {
+      Effect    = "Allow", Action = "ecs:UpdateService",
+      Resource  = "arn:aws:ecs:${var.aws_region}:${var.account_id}:service/${local.prefix}/${local.prefix}-${tier}",
+      Condition = { ArnLike = { "ecs:task-definition" = "arn:aws:ecs:${var.aws_region}:${var.account_id}:task-definition/${local.prefix}-${tier}:*" } }
+  }]) })
 }

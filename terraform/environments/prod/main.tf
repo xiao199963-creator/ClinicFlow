@@ -43,16 +43,18 @@ module "rds" {
   log_retention_days  = var.log_retention_days
 }
 module "iam" {
-  source                 = "../../modules/iam"
-  environment            = var.environment
-  aws_region             = var.aws_region
-  account_id             = data.aws_caller_identity.current.account_id
-  github_repository      = var.github_repository
-  oidc_provider_arn      = var.github_oidc_provider_arn
-  repository_arns        = local.repository_arns
-  db_cluster_resource_id = module.rds.cluster_resource_id
-  master_secret_arn      = module.rds.master_secret_arn
-  data_kms_key_arn       = module.secrets.data_kms_key_arn
+  source                      = "../../modules/iam"
+  environment                 = var.environment
+  aws_region                  = var.aws_region
+  account_id                  = data.aws_caller_identity.current.account_id
+  github_repository           = var.github_repository
+  oidc_provider_arn           = var.github_oidc_provider_arn
+  repository_arns             = local.repository_arns
+  db_cluster_resource_id      = module.rds.cluster_resource_id
+  bootstrap_operator_role_arn = var.bootstrap_operator_role_arn
+  master_secret_arn           = module.rds.master_secret_arn
+  log_kms_key_arn             = module.secrets.log_kms_key_arn
+  data_kms_key_arn            = module.secrets.data_kms_key_arn
 }
 module "alb" {
   source              = "../../modules/alb"
@@ -87,7 +89,7 @@ module "compute" {
   cpu                   = var.task_cpu
   memory                = var.task_memory
   log_retention_days    = var.log_retention_days
-  depends_on            = [module.alb, module.iam, module.vpc, module.rds]
+  depends_on            = [module.alb, module.iam, module.vpc, module.rds, module.security_groups]
 }
 module "monitoring" {
   source                     = "../../modules/monitoring"

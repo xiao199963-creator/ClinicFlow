@@ -6,7 +6,7 @@ resource "aws_kms_key" "audit" {
   lifecycle { prevent_destroy = true }
   policy = jsonencode({ Version = "2012-10-17", Statement = [
     { Sid = "EnableAccountIAM", Effect = "Allow", Principal = { AWS = "arn:aws:iam::${var.account_id}:root" }, Action = "kms:*", Resource = "*" },
-    { Sid = "CloudTrail", Effect = "Allow", Principal = { Service = "cloudtrail.amazonaws.com" }, Action = ["kms:GenerateDataKey*", "kms:DescribeKey"], Resource = "*", Condition = { StringEquals = { "aws:SourceArn" = "arn:aws:cloudtrail:${var.aws_region}:${var.account_id}:trail/${local.name}" } } }
+    { Sid = "CloudTrail", Effect = "Allow", Principal = { Service = "cloudtrail.amazonaws.com" }, Action = ["kms:GenerateDataKey*", "kms:DescribeKey", "kms:Decrypt"], Resource = "*", Condition = { StringEquals = { "aws:SourceArn" = "arn:aws:cloudtrail:${var.aws_region}:${var.account_id}:trail/${local.name}" } } }
   ] })
 }
 resource "aws_kms_alias" "audit" {

@@ -7,3 +7,6 @@ variable "repository_arns" { type = map(string) }
 variable "db_cluster_resource_id" { type = string }
 variable "master_secret_arn" { type = string }
 variable "data_kms_key_arn" { type = string }
+
+variable "bootstrap_operator_role_arn" { type = string }
+variable "log_kms_key_arn" { type = string }

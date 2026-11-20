@@ -1,8 +1,8 @@
 variable "environment" {
   type = string
   validation {
-    condition     = contains(["dev", "staging", "prod"], var.environment)
-    error_message = "Environment must be dev, staging or prod."
+    condition     = contains(["dev", "staging", "prod"], var.environment) && var.environment == basename(abspath(path.root))
+    error_message = "The environment must match its dev, staging or prod root directory."
   }
 }
 variable "aws_region" {
@@ -171,5 +171,14 @@ variable "alarm_email" {
   validation {
     condition     = can(regex("^[^@ ]+@[^@ ]+\\.[^@ ]+$", var.alarm_email))
     error_message = "Provide an email address and confirm its SNS subscription after deployment."
+  }
+}
+
+variable "bootstrap_operator_role_arn" {
+  type        = string
+  description = "Existing same-account operator role authorized to initialize Aurora from the private network."
+  validation {
+    condition     = startswith(var.bootstrap_operator_role_arn, "arn:aws:iam::${var.aws_account_id}:role/") && can(regex("^arn:aws:iam::[0-9]{12}:role/[A-Za-z0-9_+=,.@/-]+$", var.bootstrap_operator_role_arn))
+    error_message = "Provide the exact IAM role ARN of the authorized database operator."
   }
 }

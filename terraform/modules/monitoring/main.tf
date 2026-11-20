@@ -122,6 +122,12 @@ resource "aws_iam_role" "flow" {
 resource "aws_iam_role_policy" "flow" {
   role = aws_iam_role.flow.id
   policy = jsonencode({ Version = "2012-10-17", Statement = [
+    { Effect = "Allow", Action = ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey*", "kms:ReEncrypt*"], Resource = var.log_kms_key_arn,
+      Condition = { StringEquals = {
+        "kms:ViaService"                     = "logs.${var.aws_region}.amazonaws.com"
+        "kms:EncryptionContext:aws:logs:arn" = aws_cloudwatch_log_group.flow.arn
+      } }
+    },
     { Effect = "Allow", Action = ["logs:CreateLogStream", "logs:PutLogEvents", "logs:DescribeLogStreams"], Resource = "${aws_cloudwatch_log_group.flow.arn}:*" },
     { Effect = "Allow", Action = ["logs:DescribeLogGroups"], Resource = "*" }
   ] })
