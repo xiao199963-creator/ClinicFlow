@@ -12,7 +12,7 @@ locals {
 resource "aws_kms_key" "data" {
   description             = "ClinicFlow ${var.environment} database, Secrets Manager and SNS"
   enable_key_rotation     = true
-  deletion_window_in_days = 30
+  deletion_window_in_days = var.kms_deletion_window_days
   policy = jsonencode({ Version = "2012-10-17", Statement = [local.delegation, {
     Sid       = "CloudWatchAlarmNotifications"
     Effect    = "Allow"
@@ -29,7 +29,7 @@ resource "aws_kms_key" "data" {
 resource "aws_kms_key" "logs" {
   description             = "ClinicFlow ${var.environment} CloudWatch encryption"
   enable_key_rotation     = true
-  deletion_window_in_days = 30
+  deletion_window_in_days = var.kms_deletion_window_days
   policy = jsonencode({ Version = "2012-10-17", Statement = [local.delegation, {
     Sid       = "CloudWatchLogs"
     Effect    = "Allow"
@@ -50,4 +50,10 @@ resource "aws_kms_alias" "data" {
 resource "aws_kms_alias" "logs" {
   name          = "alias/clinicflow/${var.environment}/logs"
   target_key_id = aws_kms_key.logs.key_id
+}
+
+# Additional required alias on the existing data key; no encrypted resource is replaced.
+resource "aws_kms_alias" "environment" {
+  name          = "alias/clinicflow-${var.environment}"
+  target_key_id = aws_kms_key.data.key_id
 }

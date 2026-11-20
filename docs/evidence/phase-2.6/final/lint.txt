@@ -1,0 +1,2 @@
+hadolint app/api/Dockerfile app/web/Dockerfile
+shellcheck scripts/*.sh

@@ -1,0 +1,24 @@
+2026-11-20T15:42:06+11:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-20T15:42:07+11:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-11-20T15:42:07+11:00	INFO	Detected OS	family="debian" version="13.7"
+2026-11-20T15:42:07+11:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=87
+2026-11-20T15:42:07+11:00	INFO	Number of language-specific files	num=1
+2026-11-20T15:42:07+11:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-11-20T15:42:07+11:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+
+📣 [34mNotices:[0m
+  - Version 0.76.2 of Trivy is now available, current version is 0.74.0
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
+2026-11-20T15:42:07+11:00	WARN	[report] No enabled scanners found. Summary table will not be displayed.
+2026-11-20T15:42:07+11:00	INFO	Table result includes only package filenames. Use '--format json' option to get the full path to the package file.
+make: *** [scan-api] Error 1
+2026-11-20T15:42:07+11:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-20T15:42:08+11:00	INFO	Detected OS	family="alpine" version="3.23.3"
+2026-11-20T15:42:08+11:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.23" repository="3.23" pkg_num=72
+2026-11-20T15:42:08+11:00	INFO	Number of language-specific files	num=0
+2026-11-20T15:42:08+11:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.74/guide/scanner/vulnerability#severity-selection for details.
+2026-11-20T15:42:08+11:00	WARN	[report] No enabled scanners found. Summary table will not be displayed.
+make: *** [scan-web] Error 1
+make: Target `scan' not remade because of errors.

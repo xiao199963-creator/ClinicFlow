@@ -1,0 +1,51 @@
+# 正式 PDF 目标示例；不能直接用于已有 state。
+# CIDR/Serverless 切换待确认，先读 docs/phase-2.5-review.md。
+# 账号/证书/digest 是公开占位值，部署前替换；不含密码或个人信息。
+environment                 = "dev"
+aws_account_id              = "000000000000"
+aws_region                  = "ap-southeast-2"
+owner                       = "platform"
+cost_centre                 = "capstone"
+vpc_cidr                    = "10.10.0.0/16"
+availability_zones          = ["ap-southeast-2a", "ap-southeast-2b"]
+nat_gateway_count           = 1
+subnet_offsets              = { public = [0, 1], web = [10, 11], api = [20, 21], data = [30, 31] }
+enable_interface_endpoints  = false
+budget_name                 = "clinicflow-budget" # 现有名称；CF-803 目标 clinicflow-nonprod 待账单方案确认
+certificate_arn             = "arn:aws:acm:ap-southeast-2:000000000000:certificate/00000000-0000-0000-0000-000000000000"
+github_repository           = "example-org/ClinicFlow"
+github_oidc_provider_arn    = "arn:aws:iam::000000000000:oidc-provider/token.actions.githubusercontent.com"
+bootstrap_operator_role_arn = "arn:aws:iam::000000000000:role/example-db-operator"
+image_repository_urls = {
+  web = "000000000000.dkr.ecr.ap-southeast-2.amazonaws.com/clinicflow/web"
+  api = "000000000000.dkr.ecr.ap-southeast-2.amazonaws.com/clinicflow/api"
+} # 现有仓库名；改为 clinicflow-web/api 需要镜像迁移
+image_digests = {
+  web = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  api = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}
+desired_count              = 1
+minimum_task_count         = 1
+task_cpu                   = 256
+task_memory                = 512
+container_insights_enabled = false
+database_instance_count    = 1
+database_instance_class    = "db.serverless" # 待现有实例切换确认
+# 选择 Sydney 支持的 3.08.0+ 小版本；此值需云上 availability 核实，禁止以默认引擎碰运气。
+database_engine_version = "8.0.mysql_aurora.3.08.2"
+database_serverlessv2_scaling = {
+  min_capacity             = 0
+  max_capacity             = 1
+  seconds_until_auto_pause = 300 # prod min>0 时不发送暂停参数
+}
+database_backup_retention_days     = 1
+database_skip_final_snapshot       = true
+database_final_snapshot_identifier = "clinicflow-dev-final" # 销毁前需唯一命名，避免已有快照冲突
+database_delete_automated_backups  = true
+deletion_protection                = false
+log_retention_days                 = 7
+access_logs_force_destroy          = true
+access_logs_retention_days         = 30
+alarm_email                        = "alerts@example.invalid"
+kms_deletion_window_days           = 7
+web_health_check_path              = "/healthz" # Only after dual-path Web revision is healthy

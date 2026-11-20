@@ -6,7 +6,7 @@ services:
     depends_on:
       - clinicflow-api
     environment:
-      API_UPSTREAM: http://clinicflow-api:5000
+      API_URL: http://clinicflow-api:5000
       LOCAL_STAFF_ACCESS: "1"
     read_only: true
     cap_drop: [ALL]
@@ -15,7 +15,9 @@ services:
 
   clinicflow-api:
     image: clinicflow-api:test
-    build: ./app/api
+    build:
+      context: .
+      dockerfile: app/api/Dockerfile
     depends_on:
       clinicflow-db:
         condition: service_healthy
@@ -30,8 +32,6 @@ services:
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
-    volumes:
-      - ./db/schema.sql:/app/schema.sql:ro
 
   
   clinicflow-db:

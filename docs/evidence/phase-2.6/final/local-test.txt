@@ -1,0 +1,358 @@
+python3 scripts/smoke-test.py --local-images "phase26-final" --report-dir "docs/evidence/phase-2.6/final"
+ Image mysql:8.4 Pulling 
+ 0b3d5697e820 Pulling fs layer 0B
+ abda743cff12 Pulling fs layer 0B
+ b14917cf1885 Pulling fs layer 0B
+ c3e99775cc39 Pulling fs layer 0B
+ 332288060cf8 Pulling fs layer 0B
+ 5a7ab34260fd Pulling fs layer 0B
+ a8a79f346bc1 Pulling fs layer 0B
+ 335c0ba6129f Pulling fs layer 0B
+ 084e06fe4d96 Pulling fs layer 0B
+ 16ff0dc0f366 Pulling fs layer 0B
+ 0b3d5697e820 Download complete 0B
+ c3e99775cc39 Downloading 2.097MB
+ c3e99775cc39 Downloading 4.194MB
+ c3e99775cc39 Downloading 7.34MB
+ c3e99775cc39 Downloading 8.389MB
+ c3e99775cc39 Downloading 10.49MB
+ 332288060cf8 Download complete 0B
+ abda743cff12 Downloading 1.049MB
+ c3e99775cc39 Downloading 12.58MB
+ abda743cff12 Downloading 1.049MB
+ c3e99775cc39 Downloading 14.68MB
+ abda743cff12 Downloading 2.097MB
+ c3e99775cc39 Downloading 15.73MB
+ abda743cff12 Downloading 3.146MB
+ c3e99775cc39 Downloading 17.83MB
+ c3e99775cc39 Downloading 18.87MB
+ abda743cff12 Downloading 4.194MB
+ abda743cff12 Downloading 5.243MB
+ c3e99775cc39 Downloading 19.92MB
+ abda743cff12 Download complete 0B
+ c3e99775cc39 Downloading 22.02MB
+ c3e99775cc39 Downloading 24.12MB
+ c3e99775cc39 Downloading 25.17MB
+ c3e99775cc39 Downloading 27.26MB
+ a8a79f346bc1 Downloading 1.049MB
+ c3e99775cc39 Downloading 28.31MB
+ a8a79f346bc1 Downloading 2.097MB
+ b14917cf1885 Downloading 1.049MB
+ c3e99775cc39 Downloading 28.31MB
+ a8a79f346bc1 Downloading 2.097MB
+ b14917cf1885 Downloading 2.097MB
+ c3e99775cc39 Downloading 28.31MB
+ a8a79f346bc1 Downloading 3.146MB
+ b14917cf1885 Downloading 2.097MB
+ c3e99775cc39 Downloading 28.31MB
+ a8a79f346bc1 Downloading 4.194MB
+ a8a79f346bc1 Downloading 5.243MB
+ b14917cf1885 Downloading 3.146MB
+ c3e99775cc39 Downloading 31.46MB
+ a8a79f346bc1 Downloading 5.243MB
+ b14917cf1885 Downloading 4.194MB
+ c3e99775cc39 Downloading 31.46MB
+ a8a79f346bc1 Downloading 6.291MB
+ b14917cf1885 Downloading 4.194MB
+ c3e99775cc39 Downloading 34.6MB
+ b14917cf1885 Downloading 5.243MB
+ c3e99775cc39 Downloading 35.65MB
+ a8a79f346bc1 Downloading 7.34MB
+ a8a79f346bc1 Downloading 7.34MB
+ b14917cf1885 Downloading 5.243MB
+ c3e99775cc39 Downloading 36.7MB
+ c3e99775cc39 Downloading 38.8MB
+ a8a79f346bc1 Downloading 8.389MB
+ b14917cf1885 Downloading 6.291MB
+ b14917cf1885 Downloading 6.291MB
+ c3e99775cc39 Downloading 39.85MB
+ a8a79f346bc1 Downloading 8.389MB
+ b14917cf1885 Downloading 7.34MB
+ c3e99775cc39 Downloading 40.89MB
+ a8a79f346bc1 Downloading 9.437MB
+ a8a79f346bc1 Downloading 10.49MB
+ b14917cf1885 Downloading 7.34MB
+ c3e99775cc39 Downloading 41.94MB
+ a8a79f346bc1 Downloading 10.49MB
+ b14917cf1885 Downloading 8.389MB
+ c3e99775cc39 Downloading 42.99MB
+ b14917cf1885 Downloading 8.389MB
+ c3e99775cc39 Downloading 44.04MB
+ a8a79f346bc1 Downloading 11.53MB
+ c3e99775cc39 Downloading 45.09MB
+ a8a79f346bc1 Downloading 12.58MB
+ b14917cf1885 Downloading 9.437MB
+ b14917cf1885 Downloading 10.49MB
+ c3e99775cc39 Downloading 46.14MB
+ a8a79f346bc1 Downloading 13.63MB
+ b14917cf1885 Downloading 10.49MB
+ c3e99775cc39 Download complete 0B
+ a8a79f346bc1 Downloading 14.68MB
+ c3e99775cc39 Extracting 1B
+ a8a79f346bc1 Downloading 15.73MB
+ b14917cf1885 Downloading 11.53MB
+ c3e99775cc39 Extracting 1B
+ b14917cf1885 Downloading 12.58MB
+ a8a79f346bc1 Downloading 16.78MB
+ c3e99775cc39 Extracting 1B
+ a8a79f346bc1 Downloading 16.78MB
+ b14917cf1885 Downloading 13.63MB
+ c3e99775cc39 Extracting 1B
+ 5a7ab34260fd Download complete 0B
+ a8a79f346bc1 Downloading 17.83MB
+ b14917cf1885 Downloading 14.68MB
+ c3e99775cc39 Extracting 1B
+ a8a79f346bc1 Downloading 19.92MB
+ b14917cf1885 Downloading 15.73MB
+ c3e99775cc39 Extracting 1B
+ b14917cf1885 Downloading 16.78MB
+ a8a79f346bc1 Downloading 20.97MB
+ c3e99775cc39 Extracting 1B
+ b14917cf1885 Downloading 17.83MB
+ a8a79f346bc1 Downloading 22.02MB
+ 084e06fe4d96 Download complete 0B
+ c3e99775cc39 Extracting 1B
+ b14917cf1885 Downloading 18.87MB
+ a8a79f346bc1 Downloading 23.07MB
+ c3e99775cc39 Extracting 1B
+ a8a79f346bc1 Downloading 24.12MB
+ b14917cf1885 Downloading 19.92MB
+ c3e99775cc39 Extracting 1B
+ b14917cf1885 Downloading 20.97MB
+ 335c0ba6129f Download complete 0B
+ a8a79f346bc1 Downloading 25.17MB
+ c3e99775cc39 Extracting 1B
+ a8a79f346bc1 Downloading 26.21MB
+ b14917cf1885 Downloading 22.02MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 28.31MB
+ b14917cf1885 Downloading 23.07MB
+ c3e99775cc39 Extracting 2B
+ b14917cf1885 Downloading 24.12MB
+ a8a79f346bc1 Downloading 29.36MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 30.41MB
+ 16ff0dc0f366 Download complete 0B
+ b14917cf1885 Downloading 25.17MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 31.46MB
+ b14917cf1885 Downloading 26.21MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 33.55MB
+ b14917cf1885 Downloading 27.26MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 34.6MB
+ b14917cf1885 Downloading 28.31MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 36.7MB
+ b14917cf1885 Downloading 29.36MB
+ c3e99775cc39 Extracting 2B
+ a8a79f346bc1 Downloading 37.75MB
+ b14917cf1885 Downloading 30.41MB
+ c3e99775cc39 Extracting 2B
+ b14917cf1885 Downloading 31.46MB
+ a8a79f346bc1 Downloading 38.8MB
+ c3e99775cc39 Extracting 2B
+ b14917cf1885 Downloading 32.51MB
+ a8a79f346bc1 Downloading 40.89MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 34.6MB
+ a8a79f346bc1 Downloading 41.94MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 35.65MB
+ a8a79f346bc1 Downloading 42.99MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 36.7MB
+ a8a79f346bc1 Downloading 44.04MB
+ c3e99775cc39 Extracting 3B
+ a8a79f346bc1 Downloading 45.09MB
+ b14917cf1885 Downloading 37.75MB
+ c3e99775cc39 Extracting 3B
+ a8a79f346bc1 Downloading 47.19MB
+ b14917cf1885 Downloading 38.8MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 39.85MB
+ a8a79f346bc1 Downloading 48.23MB
+ c3e99775cc39 Extracting 3B
+ a8a79f346bc1 Downloading 49.28MB
+ b14917cf1885 Downloading 40.89MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 41.94MB
+ a8a79f346bc1 Downloading 50.33MB
+ c3e99775cc39 Extracting 3B
+ a8a79f346bc1 Download complete 0B
+ b14917cf1885 Downloading 44.04MB
+ c3e99775cc39 Extracting 3B
+ b14917cf1885 Downloading 46.14MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 47.19MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 48.23MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 50.33MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 52.43MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 53.48MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 55.57MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 57.67MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 59.77MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 60.82MB
+ c3e99775cc39 Extracting 4B
+ b14917cf1885 Downloading 61.87MB
+ 6f4c84f51b8c Downloading 1.049MB
+ 332288060cf8 Pull complete 0B
+ abda743cff12 Extracting 1B
+ c3e99775cc39 Pull complete 0B
+ 5a7ab34260fd Pull complete 0B
+ b14917cf1885 Downloading 62.91MB
+ 6f4c84f51b8c Downloading 2.097MB
+ abda743cff12 Pull complete 0B
+ 084e06fe4d96 Pull complete 0B
+ 335c0ba6129f Pull complete 0B
+ a8a79f346bc1 Extracting 1B
+ b14917cf1885 Downloading 65.01MB
+ 6f4c84f51b8c Downloading 4.194MB
+ a8a79f346bc1 Extracting 1B
+ b14917cf1885 Downloading 66.06MB
+ 6f4c84f51b8c Downloading 4.194MB
+ a8a79f346bc1 Extracting 1B
+ b14917cf1885 Downloading 66.06MB
+ 2047ca069dcd Download complete 0B
+ 6f4c84f51b8c Downloading 5.243MB
+ a8a79f346bc1 Extracting 1B
+ b14917cf1885 Downloading 68.16MB
+ 6f4c84f51b8c Downloading 6.291MB
+ 16ff0dc0f366 Pull complete 0B
+ a8a79f346bc1 Pull complete 0B
+ b14917cf1885 Downloading 69.21MB
+ 6f4c84f51b8c Downloading 7.34MB
+ b14917cf1885 Downloading 70.25MB
+ 6f4c84f51b8c Downloading 8.389MB
+ b14917cf1885 Downloading 72.35MB
+ 6f4c84f51b8c Downloading 9.437MB
+ 6f4c84f51b8c Downloading 10.49MB
+ b14917cf1885 Downloading 73.4MB
+ 6f4c84f51b8c Downloading 11.53MB
+ b14917cf1885 Downloading 74.45MB
+ 6f4c84f51b8c Downloading 13.63MB
+ b14917cf1885 Downloading 76.55MB
+ 6f4c84f51b8c Downloading 13.63MB
+ b14917cf1885 Downloading 77.59MB
+ 6f4c84f51b8c Download complete 0B
+ b14917cf1885 Downloading 78.64MB
+ b14917cf1885 Downloading 80.74MB
+ b14917cf1885 Downloading 81.79MB
+ b14917cf1885 Downloading 83.89MB
+ b14917cf1885 Downloading 85.98MB
+ b14917cf1885 Downloading 88.08MB
+ b14917cf1885 Downloading 89.13MB
+ b14917cf1885 Downloading 91.23MB
+ b14917cf1885 Downloading 93.32MB
+ b14917cf1885 Downloading 95.42MB
+ b14917cf1885 Downloading 97.52MB
+ b14917cf1885 Downloading 99.61MB
+ b14917cf1885 Downloading 101.7MB
+ b14917cf1885 Downloading 103.8MB
+ b14917cf1885 Downloading 107MB
+ b14917cf1885 Downloading 109.1MB
+ b14917cf1885 Downloading 111.1MB
+ b14917cf1885 Downloading 114.3MB
+ b14917cf1885 Downloading 116.4MB
+ b14917cf1885 Downloading 119.5MB
+ b14917cf1885 Downloading 120.6MB
+ b14917cf1885 Downloading 120.6MB
+ b14917cf1885 Downloading 124.8MB
+ b14917cf1885 Downloading 126.9MB
+ b14917cf1885 Downloading 129MB
+ b14917cf1885 Downloading 132.4MB
+ b14917cf1885 Download complete 0B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 1B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 2B
+ b14917cf1885 Extracting 3B
+ b14917cf1885 Extracting 3B
+ b14917cf1885 Extracting 3B
+ 0b3d5697e820 Pull complete 0B
+ b14917cf1885 Pull complete 0B
+ Image mysql:8.4 Pulled 
+ Network clinicflow-p26-c94f218ff2_default Creating 
+ Network clinicflow-p26-c94f218ff2_default Created 
+ Container clinicflow-p26-c94f218ff2-db-1 Creating 
+ Container clinicflow-p26-c94f218ff2-public-1 Creating 
+ Container clinicflow-p26-c94f218ff2-web-1 Creating 
+ Container clinicflow-p26-c94f218ff2-db-1 Created 
+ Container clinicflow-p26-c94f218ff2-api-1 Creating 
+ Container clinicflow-p26-c94f218ff2-web-1 Created 
+ Container clinicflow-p26-c94f218ff2-public-1 Created 
+ Container clinicflow-p26-c94f218ff2-api-1 Created 
+ Container clinicflow-p26-c94f218ff2-web-1 Starting 
+ Container clinicflow-p26-c94f218ff2-public-1 Starting 
+ Container clinicflow-p26-c94f218ff2-db-1 Starting 
+ Container clinicflow-p26-c94f218ff2-public-1 Started 
+ Container clinicflow-p26-c94f218ff2-db-1 Started 
+ Container clinicflow-p26-c94f218ff2-db-1 Waiting 
+ Container clinicflow-p26-c94f218ff2-web-1 Started 
+ Container clinicflow-p26-c94f218ff2-db-1 Healthy 
+ Container clinicflow-p26-c94f218ff2-api-1 Starting 
+ Container clinicflow-p26-c94f218ff2-api-1 Started 
+ Container clinicflow-p26-c94f218ff2-web-1 Waiting 
+ Container clinicflow-p26-c94f218ff2-public-1 Waiting 
+ Container clinicflow-p26-c94f218ff2-db-1 Waiting 
+ Container clinicflow-p26-c94f218ff2-api-1 Waiting 
+ Container clinicflow-p26-c94f218ff2-web-1 Healthy 
+ Container clinicflow-p26-c94f218ff2-api-1 Healthy 
+ Container clinicflow-p26-c94f218ff2-public-1 Healthy 
+ Container clinicflow-p26-c94f218ff2-db-1 Healthy 
+schema applied: 3 statements
+schema applied: 3 statements
+PASS: three seed clinics after two initializations
+PASS: healthz, clinics, slots, booking, duplicate 409, schedule, attended, cancelled, released slot
+nginx: the configuration file /tmp/nginx.conf syntax is ok
+nginx: configuration file /tmp/nginx.conf test is successful
+PASS: public booking flow and staff access denied; synthetic booking remains in disposable DB
+nginx: the configuration file /tmp/nginx.conf syntax is ok
+nginx: configuration file /tmp/nginx.conf test is successful
+PASS: health compatibility, headers, schema/CA, nonroot, RSA dependency, missing CA/password refusal
+WARNING: The directory '/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+No broken requirements found.
+ Container clinicflow-p26-c94f218ff2-public-1 Stopping 
+ Container clinicflow-p26-c94f218ff2-api-1 Stopping 
+ Container clinicflow-p26-c94f218ff2-web-1 Stopping 
+ Container clinicflow-p26-c94f218ff2-public-1 Stopped 
+ Container clinicflow-p26-c94f218ff2-public-1 Removing 
+ Container clinicflow-p26-c94f218ff2-public-1 Removed 
+ Container clinicflow-p26-c94f218ff2-web-1 Stopped 
+ Container clinicflow-p26-c94f218ff2-web-1 Removing 
+ Container clinicflow-p26-c94f218ff2-web-1 Removed 
+ Container clinicflow-p26-c94f218ff2-api-1 Stopped 
+ Container clinicflow-p26-c94f218ff2-api-1 Removing 
+ Container clinicflow-p26-c94f218ff2-api-1 Removed 
+ Container clinicflow-p26-c94f218ff2-db-1 Stopping 
+ Container clinicflow-p26-c94f218ff2-db-1 Stopped 
+ Container clinicflow-p26-c94f218ff2-db-1 Removing 
+ Container clinicflow-p26-c94f218ff2-db-1 Removed 
+ Network clinicflow-p26-c94f218ff2_default Removing 
+ Network clinicflow-p26-c94f218ff2_default Removed 
+PASS: isolated local image tests and cleanup; image IDs: {"api": {"Id": "sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805", "Architecture": "amd64", "Os": "linux", "Size": 45314245, "User": "10001:10001"}, "web": {"Id": "sha256:5fe061f2e8ac72bd8fcf79a14124de9f5c3b4675663c320abf49e3b79dc2c202", "Architecture": "amd64", "Os": "linux", "Size": 26075336, "User": "10001:10001"}}

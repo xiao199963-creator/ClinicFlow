@@ -1,0 +1,90 @@
+docker build --platform linux/amd64 -f app/api/Dockerfile -t clinicflow-api:phase26-baseline .
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 725B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.16-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#2 DONE 1.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 161B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/python:3.12.16-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#4 resolve docker.io/library/python:3.12.16-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 222B done
+#5 DONE 0.0s
+
+#6 [7/8] ADD --chmod=0444 https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /app/certs/global-bundle.pem
+#6 DONE 0.6s
+
+#7 [2/8] WORKDIR /app
+#7 CACHED
+
+#8 [4/8] RUN pip install --no-cache-dir -r requirements.txt && mkdir -m 0755 /app/certs
+#8 CACHED
+
+#9 [5/8] COPY app/api/app.py app/api/init_db.py ./
+#9 CACHED
+
+#10 [6/8] COPY db/schema.sql /app/schema.sql
+#10 CACHED
+
+#11 [7/8] ADD --chmod=0444 https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /app/certs/global-bundle.pem
+#11 CACHED
+
+#12 [3/8] COPY app/api/requirements.txt .
+#12 CACHED
+
+#13 [8/8] RUN python -c "import ssl; ssl.create_default_context(cafile='/app/certs/global-bundle.pem')"
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:df7cdf6857dc1140f866e77c0e972dbf98ca221d7052f8efece17d001efe2c63 done
+#14 exporting config sha256:c1ceb0d1b5808f0abd8265a593626e13cc5c5e43f796ef505cd149dad76966d0 done
+#14 exporting attestation manifest sha256:fc09c3340a22c73f5603f45e05adeaab487b3f28a4a61d08c7dc7058b9d27fb8 done
+#14 exporting manifest list sha256:4ccd44a4419954ff00a7193019dac5cbe3331857dd85b09ac0676126c2e49050 done
+#14 naming to docker.io/library/clinicflow-api:phase26-baseline done
+#14 DONE 0.1s
+docker build --platform linux/amd64 -t clinicflow-web:phase26-baseline app/web
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 463B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:1.28.3-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
+#2 DONE 2.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 127B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 104B done
+#4 DONE 0.0s
+
+#5 [1/3] FROM docker.io/library/nginx:1.28.3-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
+#5 resolve docker.io/library/nginx:1.28.3-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236 done
+#5 DONE 0.0s
+
+#6 [2/3] COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
+#6 CACHED
+
+#7 [3/3] COPY index.html schedule.html /usr/share/nginx/html/
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 exporting manifest sha256:402b4c61e1ad4548c1fde6d0224014d7fa5124652c9d55079bb9f34ba07caec6 done
+#8 exporting config sha256:d3d3762b27195479c2dc0e7331495b4d5d2cc50a6c0fbc211d32000bddafbaf5 done
+#8 exporting attestation manifest sha256:d8568c955fe60698422343fbd4ea6d20a7a432f92303e915e502aa3fe3be74bf done
+#8 exporting manifest list sha256:58cdaeea2145998ca2295d2d1a845e2d266592d65b609e6e82ec583f458a9a31 done
+#8 naming to docker.io/library/clinicflow-web:phase26-baseline done
+#8 DONE 0.0s

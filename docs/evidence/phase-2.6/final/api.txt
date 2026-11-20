@@ -1,0 +1,3 @@
+
+Image ID: sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805
+HIGH/CRITICAL gate exit code: 0 (0 means no findings at these severities)

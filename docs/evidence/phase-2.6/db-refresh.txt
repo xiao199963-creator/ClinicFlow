@@ -1,0 +1,1 @@
+/tmp/clinicflow-phase26-trivy-bin/trivy image --download-db-only --cache-dir "/tmp/clinicflow-phase26-trivy" --db-repository ghcr.io/aquasecurity/trivy-db:2

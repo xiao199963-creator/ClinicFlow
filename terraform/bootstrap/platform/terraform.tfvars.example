@@ -1,0 +1,4 @@
+# Target repository names; requires copying existing digests, never direct replacement.
+aws_account_id    = "000000000000"
+github_repository = "example-org/ClinicFlow"
+repository_names  = { web = "clinicflow-web", api = "clinicflow-api" }

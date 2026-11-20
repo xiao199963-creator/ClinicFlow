@@ -1,0 +1,73 @@
+[
+    {
+        "Id": "sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805",
+        "RepoTags": [
+            "clinicflow-api:phase26-final"
+        ],
+        "RepoDigests": [
+            "clinicflow-api@sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-11-20T04:48:08.521602125Z",
+        "Config": {
+            "User": "10001:10001",
+            "ExposedPorts": {
+                "5000/tcp": {}
+            },
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.16",
+                "PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c",
+                "PORT=5000",
+                "PYTHONDONTWRITEBYTECODE=1"
+            ],
+            "Cmd": [
+                "sh",
+                "-c",
+                "exec gunicorn --bind \"0.0.0.0:$PORT\" --worker-tmp-dir /tmp --workers 2 app:app"
+            ],
+            "Volumes": {
+                "/tmp": {}
+            },
+            "WorkingDir": "/app",
+            "ArgsEscaped": true
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 45314245,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:75f1d9657d880da5f75298e8f40e9928bb6e260c50d26f97af196845307e3064",
+                "sha256:d6c38381cc85b3dfb2dc52f4ad75386f844a220358291e69c060b0c6bda7f493",
+                "sha256:c55c05421254604f61c029616b7e7f3de8d875d262a12f30ead74640bc93398a",
+                "sha256:33245a72efc0b5e9c6338ed25da088588bda96f70b9a58e02de970f1a72a55a4",
+                "sha256:d3b824ee755339ef5c4188c0e0a69a6d7d883a231f46ed9e99b54735635d877b",
+                "sha256:edf0beb3b3403d34c8e4245f162c9111072ca77c72b320cf325721f86c309971",
+                "sha256:4a690644c3d9b6111cc972f6e1ca9fadd07cde790ba165253c2b58f7c76dd40e",
+                "sha256:68f8893b70bc9a9982314b0f642a5f50bc97902d72fd434fe68283258a7ce5cf",
+                "sha256:8ee7c10bb46463e334bb462a81afa393a773dd086d823731967e5684c7556f6e",
+                "sha256:b5cd906dc770213953a728e9d70954986881af654d841af863ecc22a5c5f3d8e",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-11-20T04:48:09.468908876Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805",
+            "size": 856
+        },
+        "Identity": {
+            "Build": [
+                {
+                    "Ref": "n8mgt6tsjnktkth35na4uv7gj",
+                    "CreatedAt": "2026-11-20T04:48:09.470852542Z"
+                }
+            ]
+        }
+    }
+]

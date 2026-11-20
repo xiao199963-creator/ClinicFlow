@@ -1,0 +1,167 @@
+docker build --platform linux/amd64 -f app/api/Dockerfile -t clinicflow-api:phase26-final .
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 785B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.16-alpine3.24@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 161B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/python:3.12.16-alpine3.24@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89
+#4 resolve docker.io/library/python:3.12.16-alpine3.24@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 223B done
+#5 DONE 0.0s
+
+#6 [2/8] WORKDIR /app
+#6 CACHED
+
+#7 [3/8] COPY app/api/requirements.txt .
+#7 CACHED
+
+#8 [4/8] RUN apk add --no-cache krb5-libs=1.22.3-r0     && pip install --no-cache-dir -r requirements.txt     && mkdir -m 0755 /app/certs
+#8 ...
+
+#9 [7/8] ADD --chmod=0444 https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /app/certs/global-bundle.pem
+#9 DONE 0.6s
+
+#9 [7/8] ADD --chmod=0444 https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /app/certs/global-bundle.pem
+#9 CACHED
+
+#8 [4/8] RUN apk add --no-cache krb5-libs=1.22.3-r0     && pip install --no-cache-dir -r requirements.txt     && mkdir -m 0755 /app/certs
+#8 1.336 (1/1) Upgrading krb5-libs (1.22.2-r1 -> 1.22.3-r0)
+#8 1.493 OK: 13.5 MiB in 38 packages
+#8 2.884 Collecting blinker==1.9.0 (from -r requirements.txt (line 2))
+#8 3.064   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#8 3.519 Collecting boto3==1.44.7 (from -r requirements.txt (line 3))
+#8 3.554   Downloading boto3-1.44.7-py3-none-any.whl.metadata (6.6 kB)
+#8 4.013 Collecting botocore==1.44.7 (from -r requirements.txt (line 4))
+#8 4.044   Downloading botocore-1.44.7-py3-none-any.whl.metadata (5.6 kB)
+#8 4.214 Collecting cffi==2.1.1 (from -r requirements.txt (line 5))
+#8 4.252   Downloading cffi-2.1.1-cp312-cp312-musllinux_1_2_x86_64.whl.metadata (2.5 kB)
+#8 4.308 Collecting click==8.5.1 (from -r requirements.txt (line 6))
+#8 4.344   Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+#8 4.565 Collecting cryptography==50.0.2 (from -r requirements.txt (line 7))
+#8 4.609   Downloading cryptography-50.0.2-cp311-abi3-musllinux_1_2_x86_64.whl.metadata (4.4 kB)
+#8 4.661 Collecting Flask==3.0.3 (from -r requirements.txt (line 8))
+#8 4.698   Downloading flask-3.0.3-py3-none-any.whl.metadata (3.2 kB)
+#8 4.762 Collecting gunicorn==22.0.0 (from -r requirements.txt (line 9))
+#8 4.795   Downloading gunicorn-22.0.0-py3-none-any.whl.metadata (4.4 kB)
+#8 4.847 Collecting itsdangerous==2.2.0 (from -r requirements.txt (line 10))
+#8 4.895   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#8 4.947 Collecting Jinja2==3.1.6 (from -r requirements.txt (line 11))
+#8 4.990   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#8 5.035 Collecting jmespath==1.1.0 (from -r requirements.txt (line 12))
+#8 5.075   Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+#8 5.183 Collecting MarkupSafe==3.0.4 (from -r requirements.txt (line 13))
+#8 5.226   Downloading markupsafe-3.0.4-cp312-cp312-musllinux_1_2_x86_64.whl.metadata (2.7 kB)
+#8 5.284 Collecting packaging==26.3 (from -r requirements.txt (line 14))
+#8 5.320   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#8 5.366 Collecting pycparser==3.12 (from -r requirements.txt (line 15))
+#8 5.411   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+#8 5.475 Collecting PyMySQL==1.2.4 (from -r requirements.txt (line 16))
+#8 5.515   Downloading pymysql-1.2.4-py3-none-any.whl.metadata (4.2 kB)
+#8 5.562 Collecting python-dateutil==2.9.0.post0 (from -r requirements.txt (line 17))
+#8 5.601   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#8 5.666 Collecting s3transfer==0.19.3 (from -r requirements.txt (line 18))
+#8 5.700   Downloading s3transfer-0.19.3-py3-none-any.whl.metadata (1.7 kB)
+#8 5.749 Collecting six==1.17.0 (from -r requirements.txt (line 19))
+#8 5.786   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#8 5.855 Collecting urllib3==2.8.0 (from -r requirements.txt (line 20))
+#8 5.885   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#8 5.955 Collecting Werkzeug==3.1.9 (from -r requirements.txt (line 21))
+#8 5.985   Downloading werkzeug-3.1.9-py3-none-any.whl.metadata (4.1 kB)
+#8 6.254 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+#8 6.300 Downloading boto3-1.44.7-py3-none-any.whl (140 kB)
+#8 6.421 Downloading botocore-1.44.7-py3-none-any.whl (16.7 MB)
+#8 8.898    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 7.1 MB/s eta 0:00:00
+#8 8.943 Downloading cffi-2.1.1-cp312-cp312-musllinux_1_2_x86_64.whl (223 kB)
+#8 9.007 Downloading click-8.5.1-py3-none-any.whl (126 kB)
+#8 9.073 Downloading cryptography-50.0.2-cp311-abi3-musllinux_1_2_x86_64.whl (5.0 MB)
+#8 9.668    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 8.2 MB/s eta 0:00:00
+#8 9.706 Downloading flask-3.0.3-py3-none-any.whl (101 kB)
+#8 9.758 Downloading gunicorn-22.0.0-py3-none-any.whl (84 kB)
+#8 9.805 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#8 9.843 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#8 9.904 Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+#8 9.946 Downloading markupsafe-3.0.4-cp312-cp312-musllinux_1_2_x86_64.whl (23 kB)
+#8 9.994 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#8 10.04 Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+#8 10.09 Downloading pymysql-1.2.4-py3-none-any.whl (46 kB)
+#8 10.14 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#8 10.19 Downloading s3transfer-0.19.3-py3-none-any.whl (90 kB)
+#8 10.24 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#8 10.29 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#8 10.34 Downloading werkzeug-3.1.9-py3-none-any.whl (228 kB)
+#8 10.48 Installing collected packages: urllib3, six, PyMySQL, pycparser, packaging, MarkupSafe, jmespath, itsdangerous, click, blinker, Werkzeug, python-dateutil, Jinja2, gunicorn, cffi, Flask, cryptography, botocore, s3transfer, boto3
+#8 11.61 Successfully installed Flask-3.0.3 Jinja2-3.1.6 MarkupSafe-3.0.4 PyMySQL-1.2.4 Werkzeug-3.1.9 blinker-1.9.0 boto3-1.44.7 botocore-1.44.7 cffi-2.1.1 click-8.5.1 cryptography-50.0.2 gunicorn-22.0.0 itsdangerous-2.2.0 jmespath-1.1.0 packaging-26.3 pycparser-3.12 python-dateutil-2.9.0.post0 s3transfer-0.19.3 six-1.17.0 urllib3-2.8.0
+#8 11.61 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 11.79 
+#8 11.79 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 11.79 [notice] To update, run: pip install --upgrade pip
+#8 DONE 11.9s
+
+#10 [5/8] COPY app/api/app.py app/api/init_db.py ./
+#10 DONE 0.0s
+
+#11 [6/8] COPY db/schema.sql /app/schema.sql
+#11 DONE 0.0s
+
+#12 [7/8] ADD --chmod=0444 https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /app/certs/global-bundle.pem
+#12 DONE 0.0s
+
+#13 [8/8] RUN python -c "import ssl; ssl.create_default_context(cafile='/app/certs/global-bundle.pem')"
+#13 DONE 0.3s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.9s done
+#14 exporting manifest sha256:aad45a54bf25a536c4c39fa0be66f499ea4cc6bfd58cc9f22c1051afecc80c70 done
+#14 exporting config sha256:4a44708369262329de8a8d0ed57372758bf3f97353fe01069ab00278deb1b75f done
+#14 exporting attestation manifest sha256:51b1d29f9228495809cbff9bdc8ad3394199a3515c877027cacd7d735b3f8601 done
+#14 exporting manifest list sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805 done
+#14 naming to docker.io/library/clinicflow-api:phase26-final done
+#14 DONE 1.0s
+docker build --platform linux/amd64 -t clinicflow-web:phase26-final app/web
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 467B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:1.30.7-alpine3.24@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 127B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 104B done
+#4 DONE 0.0s
+
+#5 [1/3] FROM docker.io/library/nginx:1.30.7-alpine3.24@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+#5 resolve docker.io/library/nginx:1.30.7-alpine3.24@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3 done
+#5 DONE 0.0s
+
+#6 [2/3] COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
+#6 CACHED
+
+#7 [3/3] COPY index.html schedule.html /usr/share/nginx/html/
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 exporting manifest sha256:d5d8e71ec30c96106b68a7fabd37832d5d1e0d3765b468bfe1930d878846cb59 done
+#8 exporting config sha256:5730fcba9a1c6b3fbecbd49fab03d091e535982ced21c4d22060bbb8bde87f95 done
+#8 exporting attestation manifest sha256:688866a98bc71191debeb21694c27ef218b5fe33a6e8d58e102b1c399d238e22 done
+#8 exporting manifest list sha256:5fe061f2e8ac72bd8fcf79a14124de9f5c3b4675663c320abf49e3b79dc2c202 done
+#8 naming to docker.io/library/clinicflow-web:phase26-final done
+#8 DONE 0.0s

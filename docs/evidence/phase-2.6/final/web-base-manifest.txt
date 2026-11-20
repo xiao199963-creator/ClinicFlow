@@ -1,0 +1,172 @@
+Name:      docker.io/library/nginx:1.30.7-alpine3.24
+MediaType: application/vnd.oci.image.index.v1+json
+Digest:    sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+           
+Manifests: 
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:4d1d4ce08432dc7dfe4af762cb224ce6b5273ae878f41e020ea2425d02ea91a4
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/amd64
+  Annotations: 
+    org.opencontainers.image.created:         2026-11-18T16:35:54Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: amd64
+    org.opencontainers.image.base.digest:     sha256:e2fc266695cef82e3a686c7ed628d1f09c2a7bb5ffb2a718ae7f7c821f5583c1
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:8491bebbb48f3471312296cb908c0bc64a369bc6cf402751fe95806f09302c42
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: amd64
+    vnd.docker.reference.digest:              sha256:4d1d4ce08432dc7dfe4af762cb224ce6b5273ae878f41e020ea2425d02ea91a4
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:4348fa980b4a51162a0bfb6a0369d2caf5cc3156ea9101236285302508f0eee8
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm/v6
+  Annotations: 
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T16:38:20Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: arm32v6
+    org.opencontainers.image.base.digest:     sha256:b62718a8a2a00f55ec6d2c24514bf506ba8f5c4beddca2d2964dc709e2fbd119
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:68725b924d3b8aa59e92851773ac5762fc74da1738793eef96fd551769a51bf2
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: arm32v6
+    vnd.docker.reference.digest:              sha256:4348fa980b4a51162a0bfb6a0369d2caf5cc3156ea9101236285302508f0eee8
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:35589eacaf9659626b41432cbe2ba7a122412e185d66a7427c8d2fa289aecc61
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm/v7
+  Annotations: 
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: arm32v7
+    org.opencontainers.image.base.digest:     sha256:f85174fd3aa79617965ed49f0b9f574def01ddf82269a196282b82b79f814a45
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T17:11:36Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:99e45326431a41fdd989e35cb78c7e063ad84e728bcc4a7cc411ba0c96692b3d
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: arm32v7
+    vnd.docker.reference.digest:              sha256:35589eacaf9659626b41432cbe2ba7a122412e185d66a7427c8d2fa289aecc61
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:efd51f02e6ed0fc6d9d5bb6c700ba28b560e1c61dae9ad125bd5bad55cd2bd11
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/arm64/v8
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: arm64v8
+    org.opencontainers.image.base.digest:     sha256:454a2c682b29cc083b4551a8df89ef5e41bfc9e12e1644dd3a8d3f1733bed866
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T16:36:01Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+    org.opencontainers.image.version:         1.30.7-alpine
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:e4ada9c88492f8b0ffefe8e245ac106ecc0c79a4730f7a1f711b0dc992dc9fa4
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: arm64v8
+    vnd.docker.reference.digest:              sha256:efd51f02e6ed0fc6d9d5bb6c700ba28b560e1c61dae9ad125bd5bad55cd2bd11
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:975cb06b5b37fe70918f43dcfb062f7fedd17b52751c4330d16455bd2f25a824
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/386
+  Annotations: 
+    org.opencontainers.image.base.digest:     sha256:83a0fa6af95da5180634d13f76738c134e4e5255b95386d642fc4fd0325abd85
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T17:09:59Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: i386
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:9ea48993ff4985faff572540715a890cd1cb0518ddb15e1371ea24235655052d
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: i386
+    vnd.docker.reference.digest:              sha256:975cb06b5b37fe70918f43dcfb062f7fedd17b52751c4330d16455bd2f25a824
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:ed489e7a32f007bca3a5c54eebd51f1adb0e49112169da1863d2ce95eb0accc8
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/ppc64le
+  Annotations: 
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: ppc64le
+    org.opencontainers.image.base.digest:     sha256:82219bbd5ddabe7c4424bd583da0822f2cae3a09a8a65719e8fbcd2158bfa881
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T17:39:06Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:c44139d01b1de9251245cd53ece0dbfe4f54ff6a85a69fa808dcb29075b832a7
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: ppc64le
+    vnd.docker.reference.digest:              sha256:ed489e7a32f007bca3a5c54eebd51f1adb0e49112169da1863d2ce95eb0accc8
+    vnd.docker.reference.type:                attestation-manifest
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:f106012f3145d49f7edba170ae01bf2d9cc9c8f8efdf32be22a7501e07f55e49
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/riscv64
+  Annotations: 
+    org.opencontainers.image.created:         2026-11-19T21:07:09Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: riscv64
+    org.opencontainers.image.base.digest:     sha256:af84d8f3b11f070812fc85fd47e146e8c7ef8c72464d70cf3b72bb4de6a01e3d
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:62113d7e3ca946a12c10d23cde6ba0317b09b358c1c780b6d361e5026ac01269
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    vnd.docker.reference.type:                attestation-manifest
+    com.docker.official-images.bashbrew.arch: riscv64
+    vnd.docker.reference.digest:              sha256:f106012f3145d49f7edba170ae01bf2d9cc9c8f8efdf32be22a7501e07f55e49
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:acb88a7ac4f1d26fcd32973b433b6e8ebb71bb900f1e653d42c1c1687c3fea90
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    linux/s390x
+  Annotations: 
+    org.opencontainers.image.version:         1.30.7-alpine
+    com.docker.official-images.bashbrew.arch: s390x
+    org.opencontainers.image.base.digest:     sha256:c6b50a742581fce45e8d9223611471c43473f92ab084822060c5b2d08f3861c3
+    org.opencontainers.image.base.name:       nginx:1.30.7-alpine-slim
+    org.opencontainers.image.created:         2026-11-18T16:41:00Z
+    org.opencontainers.image.revision:        a2a986d19aac4a79a330e6e0b5171aae4e521926
+    org.opencontainers.image.source:          https://github.com/nginx/docker-nginx.git#a2a986d19aac4a79a330e6e0b5171aae4e521926:stable/alpine
+    org.opencontainers.image.url:             https://hub.docker.com/_/nginx
+               
+  Name:        docker.io/library/nginx:1.30.7-alpine3.24@sha256:4fbc3194c4d3a3b0d02df4ad0835f248bb6f305bf22e308625d9507336fa8e23
+  MediaType:   application/vnd.oci.image.manifest.v1+json
+  Platform:    unknown/unknown
+  Annotations: 
+    com.docker.official-images.bashbrew.arch: s390x
+    vnd.docker.reference.digest:              sha256:acb88a7ac4f1d26fcd32973b433b6e8ebb71bb900f1e653d42c1c1687c3fea90
+    vnd.docker.reference.type:                attestation-manifest

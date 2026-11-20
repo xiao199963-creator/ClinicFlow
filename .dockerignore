@@ -1,0 +1,9 @@
+**
+!app/
+!app/api/
+!app/api/Dockerfile
+!app/api/app.py
+!app/api/init_db.py
+!app/api/requirements.txt
+!db/
+!db/schema.sql

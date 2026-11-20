@@ -9,7 +9,7 @@ resource "aws_kms_alias" "ecr" {
 }
 resource "aws_ecr_repository" "main" {
   for_each             = toset(["web", "api"])
-  name                 = "${var.name_prefix}/${each.key}"
+  name                 = var.repository_names[each.key]
   image_tag_mutability = "IMMUTABLE"
   force_delete         = false
   image_scanning_configuration { scan_on_push = true }
@@ -18,14 +18,19 @@ resource "aws_ecr_repository" "main" {
     kms_key         = aws_kms_key.ecr.arn
   }
 }
-# Only untagged images are expired. Tagged rollback releases remain available.
+# A digest older than the retained ten images must be checked before rollback.
 resource "aws_ecr_lifecycle_policy" "main" {
   for_each   = aws_ecr_repository.main
   repository = each.value.name
   policy = jsonencode({ rules = [{
     rulePriority = 1
-    description  = "Expire untagged images after 7 days"
-    selection    = { tagStatus = "untagged", countType = "sinceImagePushed", countUnit = "days", countNumber = 7 }
+    description  = "Keep the latest ten images"
+    selection    = { tagStatus = "any", countType = "imageCountMoreThan", countNumber = 10 }
     action       = { type = "expire" }
   }] })
+}
+
+resource "aws_kms_alias" "shared" {
+  name          = "alias/clinicflow-shared"
+  target_key_id = aws_kms_key.ecr.key_id
 }

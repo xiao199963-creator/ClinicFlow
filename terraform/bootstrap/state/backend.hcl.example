@@ -1,0 +1,9 @@
+# Pass this key to each environment/platform backend only after granting state KMS permissions.
+# encrypt=true alone without kms_key_id can explicitly select SSE-S3 rather than bucket default KMS.
+# The existing bucket name/state key must stay unchanged when migrating encryption.
+bucket       = "clinicflow-tfstate-000000000000"
+region       = "ap-southeast-2"
+key          = "dev/terraform.tfstate"
+encrypt      = true
+use_lockfile = true
+kms_key_id   = "arn:aws:kms:ap-southeast-2:000000000000:key/00000000-0000-0000-0000-000000000000"

@@ -2,15 +2,14 @@ locals {
   prefix = "clinicflow-${var.environment}"
   ports  = { web = var.web_port, api = var.api_port }
   environment = {
-    web = { APP_ENV = var.environment, API_UPSTREAM = "http://${var.internal_alb_dns_name}" }
+    web = { APP_ENV = var.environment, API_URL = "http://${var.internal_alb_dns_name}" }
     api = {
       APP_ENV      = var.environment
       AWS_REGION   = var.aws_region
       DB_HOST      = var.database_endpoint
       DB_PORT      = "3306"
       DB_NAME      = "clinicflow"
-      DB_USER      = "clinicflow_app"
-      DB_AUTH_MODE = "iam"
+      DB_AUTH_MODE = "password"
       DB_SSL_CA    = "/app/certs/global-bundle.pem"
     }
   }
@@ -25,7 +24,7 @@ resource "aws_ecs_cluster" "main" {
   name = local.prefix
   setting {
     name  = "containerInsights"
-    value = var.environment == "prod" ? "enabled" : "disabled"
+    value = var.container_insights_enabled ? "enabled" : "disabled"
   }
 }
 resource "aws_ecs_task_definition" "main" {
@@ -53,6 +52,10 @@ resource "aws_ecs_task_definition" "main" {
     portMappings           = [{ containerPort = each.value, hostPort = each.value, protocol = "tcp" }]
     mountPoints            = [{ sourceVolume = "tmp", containerPath = "/tmp", readOnly = false }]
     environment            = [for name, value in merge(local.environment[each.key], { PORT = tostring(each.value) }) : { name = name, value = value }]
+    secrets = each.key == "api" ? [
+      { name = "DB_USER", valueFrom = "${var.master_secret_arn}:username::" },
+      { name = "DB_PASSWORD", valueFrom = "${var.master_secret_arn}:password::" }
+    ] : []
     logConfiguration = {
       logDriver = "awslogs"
       options = {
@@ -100,8 +103,30 @@ resource "aws_ecs_service" "main" {
   }
   lifecycle {
     precondition {
-      condition     = var.environment != "prod" || var.desired_count >= 2
-      error_message = "Production requires at least two tasks per service."
+      condition     = var.desired_count >= var.minimum_task_count
+      error_message = "desired_count must meet the explicit minimum_task_count."
     }
   }
+}
+
+# Registered separately; creating this definition never runs initialization.
+# The bootstrap command receives master credentials via ECS secrets, not overrides.
+resource "aws_ecs_task_definition" "database_bootstrap" {
+  family                   = "${local.prefix}-db-init"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = var.cpu
+  memory                   = var.memory
+  execution_role_arn       = var.execution_role_arns["api"]
+  task_role_arn            = var.task_role_arns["api"]
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+  volume { name = "tmp" }
+  container_definitions = jsonencode([
+    merge(jsondecode(aws_ecs_task_definition.main["api"].container_definitions)[0], {
+      command = ["python", "init_db.py"]
+    })
+  ])
 }

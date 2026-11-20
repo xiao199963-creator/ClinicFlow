@@ -1,0 +1,14 @@
+2026-11-20T15:49:10+11:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-20T15:49:10+11:00	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-11-20T15:49:10+11:00	INFO	Detected OS	family="alpine" version="3.24.4"
+2026-11-20T15:49:10+11:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=38
+2026-11-20T15:49:10+11:00	INFO	Number of language-specific files	num=1
+2026-11-20T15:49:10+11:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-11-20T15:49:10+11:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.76/guide/scanner/vulnerability#severity-selection for details.
+2026-11-20T15:49:10+11:00	WARN	[report] No enabled scanners found. Summary table will not be displayed.
+2026-11-20T15:49:10+11:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-20T15:49:10+11:00	INFO	Detected OS	family="alpine" version="3.24.4"
+2026-11-20T15:49:10+11:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=71
+2026-11-20T15:49:10+11:00	INFO	Number of language-specific files	num=0
+2026-11-20T15:49:10+11:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.76/guide/scanner/vulnerability#severity-selection for details.
+2026-11-20T15:49:11+11:00	WARN	[report] No enabled scanners found. Summary table will not be displayed.

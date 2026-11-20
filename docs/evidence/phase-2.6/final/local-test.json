@@ -1,0 +1,24 @@
+{
+  "images": {
+    "api": {
+      "Id": "sha256:9585d8d39010193a3d341465bfc44b2f7f1a4fa00d5e1ba386a1033d22613805",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "Size": 45314245,
+      "User": "10001:10001"
+    },
+    "web": {
+      "Id": "sha256:5fe061f2e8ac72bd8fcf79a14124de9f5c3b4675663c320abf49e3b79dc2c202",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "Size": 26075336,
+      "User": "10001:10001"
+    }
+  },
+  "project": "clinicflow-p26-c94f218ff2",
+  "started_at": "2026-11-20T04:48:28.877404+00:00",
+  "status": "PASS",
+  "cleanup": "PASS: only this random project removed; TemporaryDirectory removes credentials",
+  "preexisting_containers_preserved": true,
+  "finished_at": "2026-11-20T04:49:05.702859+00:00"
+}

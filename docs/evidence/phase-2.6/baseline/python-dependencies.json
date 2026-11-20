@@ -1,0 +1,98 @@
+{
+  "pip": null,
+  "blinker": null,
+  "boto3": [
+    "botocore (<1.45.0,>=1.44.7)",
+    "jmespath (<2.0.0,>=0.7.1)",
+    "s3transfer (<0.20.0,>=0.19.0)",
+    "botocore[crt] (<2.0a0,>=1.21.0) ; extra == 'crt'"
+  ],
+  "python-dateutil": [
+    "six >=1.5"
+  ],
+  "Werkzeug": [
+    "markupsafe>=2.1.1",
+    "watchdog>=2.3 ; extra == \"watchdog\""
+  ],
+  "six": null,
+  "pycparser": null,
+  "cffi": [
+    "pycparser; implementation_name != \"PyPy\""
+  ],
+  "gunicorn": [
+    "packaging",
+    "importlib-metadata ; python_version < \"3.8\"",
+    "eventlet !=0.36.0,>=0.24.1 ; extra == 'eventlet'",
+    "gevent >=1.4.0 ; extra == 'gevent'",
+    "setproctitle ; extra == 'setproctitle'",
+    "gevent ; extra == 'testing'",
+    "eventlet ; extra == 'testing'",
+    "coverage ; extra == 'testing'",
+    "pytest ; extra == 'testing'",
+    "pytest-cov ; extra == 'testing'",
+    "tornado >=0.2 ; extra == 'tornado'"
+  ],
+  "Flask": [
+    "Werkzeug>=3.0.0",
+    "Jinja2>=3.1.2",
+    "itsdangerous>=2.1.2",
+    "click>=8.1.3",
+    "blinker>=1.6.2",
+    "importlib-metadata>=3.6.0; python_version < '3.10'",
+    "asgiref>=3.2 ; extra == \"async\"",
+    "python-dotenv ; extra == \"dotenv\""
+  ],
+  "packaging": null,
+  "Jinja2": [
+    "MarkupSafe>=2.0",
+    "Babel>=2.7 ; extra == \"i18n\""
+  ],
+  "cryptography": [
+    "cffi >=1.12 ; platform_python_implementation != 'PyPy'",
+    "bcrypt >=3.1.5 ; extra == 'ssh'",
+    "nox ; extra == 'nox'",
+    "cryptography-vectors ==43.0.1 ; extra == 'test'",
+    "pytest >=6.2.0 ; extra == 'test'",
+    "pytest-benchmark ; extra == 'test'",
+    "pytest-cov ; extra == 'test'",
+    "pytest-xdist ; extra == 'test'",
+    "pretend ; extra == 'test'",
+    "certifi ; extra == 'test'",
+    "pytest-randomly ; extra == 'test-randomorder'",
+    "sphinx >=5.3.0 ; extra == 'docs'",
+    "sphinx-rtd-theme >=1.1.1 ; extra == 'docs'",
+    "pyenchant >=1.6.11 ; extra == 'docstest'",
+    "readme-renderer ; extra == 'docstest'",
+    "sphinxcontrib-spelling >=4.0.1 ; extra == 'docstest'",
+    "build ; extra == 'sdist'",
+    "ruff ; extra == 'pep8test'",
+    "mypy ; extra == 'pep8test'",
+    "check-sdist ; extra == 'pep8test'",
+    "click ; extra == 'pep8test'"
+  ],
+  "urllib3": [
+    "brotli>=1.2.0; (platform_python_implementation == 'CPython') and extra == 'brotli'",
+    "brotlicffi>=1.2.0.0; (platform_python_implementation != 'CPython') and extra == 'brotli'",
+    "h2<5,>=4; extra == 'h2'",
+    "pysocks!=1.5.7,<2.0,>=1.5.6; extra == 'socks'",
+    "backports-zstd>=1.0.0; (python_version < '3.14') and extra == 'zstd'"
+  ],
+  "MarkupSafe": null,
+  "jmespath": null,
+  "PyMySQL": [
+    "cryptography>=46.0.7; extra == \"rsa\"",
+    "PyNaCl>=1.6.2; extra == \"ed25519\""
+  ],
+  "botocore": [
+    "jmespath (<2.0.0,>=0.7.1)",
+    "python-dateutil (<3.0.0,>=2.1)",
+    "urllib3 (!=2.2.0,<3,>=1.25.4)",
+    "awscrt (==0.38.0) ; extra == 'crt'"
+  ],
+  "itsdangerous": null,
+  "s3transfer": [
+    "botocore (<2.0a.0,>=1.37.4)",
+    "botocore[crt] (<2.0a.0,>=1.37.4) ; extra == 'crt'"
+  ],
+  "click": null
+}

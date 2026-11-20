@@ -1,0 +1,23 @@
+{
+  "recorded_on": "2026-11-20 Australia/Melbourne",
+  "before": {
+    "api_base": "FROM python:3.12.16-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b",
+    "web_base": "FROM nginx:1.28.3-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+    "requirements": "Flask==3.0.3\nPyMySQL==1.2.4\nboto3==1.44.7\ncryptography==43.0.1\ngunicorn==22.0.0\n"
+  },
+  "after": {
+    "api_base": "FROM python:3.12.16-alpine3.24@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89",
+    "web_base": "FROM nginx:1.30.7-alpine3.24@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3",
+    "requirements": "# Direct and transitive runtime dependencies, pinned from the tested Python 3.12 image.\nblinker==1.9.0\nboto3==1.44.7\nbotocore==1.44.7\ncffi==2.1.1\nclick==8.5.1\ncryptography==50.0.2\nFlask==3.0.3\ngunicorn==22.0.0\nitsdangerous==2.2.0\nJinja2==3.1.6\njmespath==1.1.0\nMarkupSafe==3.0.4\npackaging==26.3\npycparser==3.12\nPyMySQL==1.2.4\npython-dateutil==2.9.0.post0\ns3transfer==0.19.3\nsix==1.17.0\nurllib3==2.8.0\nWerkzeug==3.1.9\n"
+  },
+  "prior_text_reports": {
+    "docs/evidence/phase-2.5/api-image-scan.txt": {
+      "sha256": "fe26cd4367fb3b732c8bda2cb22af2a0fa976135d56ebefa342a89f4dbb35eb0",
+      "identity_note": "Historical text contains a tag but no immutable image ID; cannot retroactively prove an ID. Phase2.6 fresh baseline has its own identity JSON."
+    },
+    "docs/evidence/phase-2.5/web-image-scan.txt": {
+      "sha256": "519b407c5ca5ba93a97df41ffe661e2e4ba8806e55d2406e79e67dec32d839c1",
+      "identity_note": "Historical text contains a tag but no immutable image ID; cannot retroactively prove an ID. Phase2.6 fresh baseline has its own identity JSON."
+    }
+  }
+}

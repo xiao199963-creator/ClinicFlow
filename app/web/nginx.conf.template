@@ -4,6 +4,7 @@ error_log /dev/stderr warn;
 events { worker_connections 1024; }
 http {
     include /etc/nginx/mime.types;
+    server_tokens off;
     client_body_temp_path /tmp/client_body;
     proxy_temp_path /tmp/proxy;
     fastcgi_temp_path /tmp/fastcgi;
@@ -16,9 +17,13 @@ http {
     # Only the loopback-bound development stack enables the three staff routes.
     map "$request_method:$uri" $allowed {
         default                          0;
+        "HEAD:/"                         1;
+        "HEAD:/healthz"                  1;
         "GET:/"                          1;
         "GET:/index.html"                1;
         "GET:/health"                    1;
+        "HEAD:/health"                   1;
+        "GET:/healthz"                    1;
         "GET:/api/clinics"               1;
         "GET:/api/slots"                 1;
         "POST:/api/bookings"             1;
@@ -31,10 +36,14 @@ http {
         listen ${PORT};
         root /usr/share/nginx/html;
         add_header Cache-Control no-store always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options DENY always;
+        add_header Referrer-Policy no-referrer always;
         if ($allowed != 1) { return 403; }
         location = /health { return 200 "ok\n"; }
+        location = /healthz { return 200 "ok\n"; }
         location /api/ {
-            set $api_origin "${API_UPSTREAM}";
+            set $api_origin "${API_URL}";
             proxy_pass $api_origin$uri$is_args$args;
         }
         location / { try_files $uri /index.html; }

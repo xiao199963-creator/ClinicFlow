@@ -1,0 +1,2 @@
+# Target only. Grant state readers/writers KMS access first; do not overwrite current config.
+shared_kms_key_arn = "arn:aws:kms:ap-southeast-2:000000000000:key/00000000-0000-0000-0000-000000000000"

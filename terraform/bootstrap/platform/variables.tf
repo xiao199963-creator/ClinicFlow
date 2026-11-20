@@ -21,3 +21,8 @@ variable "budget_name" {
   type    = string
   default = "clinicflow-budget"
 }
+
+variable "repository_names" {
+  type    = map(string)
+  default = { web = "clinicflow/web", api = "clinicflow/api" }
+}

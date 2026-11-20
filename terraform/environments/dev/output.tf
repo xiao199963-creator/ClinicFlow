@@ -32,3 +32,5 @@ output "ecs_cluster_name" { value = module.compute.cluster_name }
 output "ecs_service_names" { value = module.compute.service_names }
 output "dashboard_name" { value = module.monitoring.dashboard_name }
 output "budget_arn" { value = data.aws_budgets_budget.prerequisite.arn }
+
+output "database_bootstrap_task_definition_arn" { value = module.compute.database_bootstrap_task_definition_arn }

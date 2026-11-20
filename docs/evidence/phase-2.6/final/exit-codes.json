@@ -1,0 +1,9 @@
+{
+  "make build": 0,
+  "make local-test": 0,
+  "make image-check": 0,
+  "make -k scan": 0,
+  "trivy_api_high_critical": 0,
+  "trivy_web_high_critical": 0,
+  "tested_scanned_identity_match": true
+}

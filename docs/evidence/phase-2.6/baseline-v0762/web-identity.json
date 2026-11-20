@@ -1,0 +1,86 @@
+[
+    {
+        "Id": "sha256:58cdaeea2145998ca2295d2d1a845e2d266592d65b609e6e82ec583f458a9a31",
+        "RepoTags": [
+            "clinicflow-web:phase26-baseline"
+        ],
+        "RepoDigests": [
+            "clinicflow-web@sha256:58cdaeea2145998ca2295d2d1a845e2d266592d65b609e6e82ec583f458a9a31"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-11-20T04:30:51.849598215Z",
+        "Config": {
+            "User": "10001:10001",
+            "ExposedPorts": {
+                "80/tcp": {},
+                "8080/tcp": {}
+            },
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NGINX_VERSION=1.28.3",
+                "PKG_RELEASE=1",
+                "DYNPKG_RELEASE=1",
+                "NJS_VERSION=0.9.6",
+                "NJS_RELEASE=1",
+                "ACME_VERSION=0.3.1",
+                "PORT=8080",
+                "LOCAL_STAFF_ACCESS=0",
+                "NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1",
+                "NGINX_ENVSUBST_OUTPUT_DIR=/tmp"
+            ],
+            "Entrypoint": [
+                "/docker-entrypoint.sh"
+            ],
+            "Cmd": [
+                "nginx",
+                "-c",
+                "/tmp/nginx.conf",
+                "-g",
+                "daemon off;"
+            ],
+            "Volumes": {
+                "/tmp": {}
+            },
+            "WorkingDir": "/",
+            "Labels": {
+                "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+            },
+            "StopSignal": "SIGQUIT",
+            "ArgsEscaped": true
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 25970918,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e",
+                "sha256:a2738b08d7114c9d5581dd5482d3b5cc297fcf73b8d330c3ba38d24c43939119",
+                "sha256:47a53288c3ef0ee51df84ef47d217f18c1762412532fded9af1fd88ecee14294",
+                "sha256:9e707aa6db4786355904a1b794c80f378b690f8f0384af56117708a23a91f1da",
+                "sha256:a3446cc6c821fa11b704a45811ab554675f0327307af71b3f4ff5a70c7a4eec8",
+                "sha256:42608b42cb5e68548abf1c71aa851acfd65816d0ceaff6ee85849c7c478463f0",
+                "sha256:53c769b49ca0a2f0f6cf5e4a807af8933cec6cde9302d56d91a78bc38ea407a8",
+                "sha256:f76f397f2ce6b266573b70eb60ef1335e9984a1941eedd2a3505af4870c3afa0",
+                "sha256:6cfbd985d536910eb94c1e2c5fb16e11653aaab8b6df36872992bdf499ccdb61",
+                "sha256:ef7ac9e5b5427cc6f5fdf89de5cc3035cbdf77898275c3b3cdaa4a10353aa80c"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-11-20T04:41:32.022914011Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:58cdaeea2145998ca2295d2d1a845e2d266592d65b609e6e82ec583f458a9a31",
+            "size": 856
+        },
+        "Identity": {
+            "Build": [
+                {
+                    "Ref": "1xyuomyfhfvco19iv55fa8q2k",
+                    "CreatedAt": "2026-11-20T04:41:32.024474178Z"
+                }
+            ]
+        }
+    }
+]

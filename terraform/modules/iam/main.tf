@@ -37,14 +37,16 @@ resource "aws_iam_role" "task" {
   name               = "${local.prefix}-${each.key}-task"
   assume_role_policy = local.ecs_trust
 }
-# Web has no AWS permissions. API can authenticate only as its application DB user.
-resource "aws_iam_role_policy" "api_database" {
-  role = aws_iam_role.task["api"].id
-  policy = jsonencode({ Version = "2012-10-17", Statement = [{
-    Effect   = "Allow"
-    Action   = ["rds-db:connect"]
-    Resource = "arn:aws:rds-db:${var.aws_region}:${var.account_id}:dbuser:${var.db_cluster_resource_id}/clinicflow_app"
-  }] })
+# Neither runtime task role calls AWS APIs for the password connection.
+# ECS agent reads the managed secret with the API execution role only.
+resource "aws_iam_role_policy" "api_secret" {
+  role = aws_iam_role.execution["api"].id
+  policy = jsonencode({ Version = "2012-10-17", Statement = [
+    { Effect = "Allow", Action = ["secretsmanager:GetSecretValue"], Resource = var.master_secret_arn },
+    { Effect    = "Allow", Action = ["kms:Decrypt"], Resource = var.data_kms_key_arn,
+      Condition = { StringEquals = { "kms:ViaService" = "secretsmanager.${var.aws_region}.amazonaws.com", "kms:EncryptionContext:SecretARN" = var.master_secret_arn } }
+    }
+  ] })
 }
 
 # Phase 1 uses a private MySQL client operated by a designated administrator.
