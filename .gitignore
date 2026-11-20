@@ -25,6 +25,8 @@ crash.log
 # Terraform 
 **/.terraform/
 *.tfstate
+*.tfstate.*
+*.tflock
 *.tfvars
 *.tfvars.json
 backend.hcl

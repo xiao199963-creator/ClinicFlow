@@ -19,7 +19,10 @@ resource "aws_kms_key" "data" {
     Principal = { Service = "cloudwatch.amazonaws.com" }
     Action    = ["kms:Decrypt", "kms:GenerateDataKey*"]
     Resource  = "*"
-    Condition = { StringEquals = { "aws:SourceAccount" = var.account_id } }
+    Condition = {
+      StringEquals = { "aws:SourceAccount" = var.account_id }
+      ArnLike      = { "aws:SourceArn" = "arn:aws:cloudwatch:${var.aws_region}:${var.account_id}:alarm:clinicflow-${var.environment}-*" }
+    }
   }] })
 }
 
