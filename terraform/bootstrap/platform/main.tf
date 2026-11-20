@@ -2,8 +2,9 @@ data "aws_caller_identity" "current" {}
 data "aws_budgets_budget" "prerequisite" { name = var.budget_name }
 
 module "ecr" {
-  source     = "../../modules/ecr"
-  depends_on = [data.aws_budgets_budget.prerequisite]
+  source           = "../../modules/ecr"
+  repository_names = var.repository_names
+  depends_on       = [data.aws_budgets_budget.prerequisite]
 }
 module "audit" {
   source     = "../../modules/audit"

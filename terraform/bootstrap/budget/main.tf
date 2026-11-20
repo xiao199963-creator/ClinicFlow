@@ -23,7 +23,7 @@ resource "aws_budgets_budget" "clinicflow_budget" {
 
   tags = {
     Project   = "clinicflow"
-    ManagedBy = "Terraform"
+    ManagedBy = "terraform"
     Purpose   = "Budget"
   }
 }

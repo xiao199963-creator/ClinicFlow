@@ -4,7 +4,6 @@ variable "account_id" { type = string }
 variable "github_repository" { type = string }
 variable "oidc_provider_arn" { type = string }
 variable "repository_arns" { type = map(string) }
-variable "db_cluster_resource_id" { type = string }
 variable "master_secret_arn" { type = string }
 variable "data_kms_key_arn" { type = string }
 

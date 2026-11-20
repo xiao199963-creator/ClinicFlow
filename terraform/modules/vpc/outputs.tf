@@ -22,3 +22,6 @@ output "private_data_subnet_ids" {
   description = "Private subnet IDs for Aurora MySQL"
   value       = { for k, subnet in aws_subnet.private_data : k => subnet.id }
 }
+output "private_route_table_ids" {
+  value = concat([aws_route_table.private_web.id, aws_route_table.private_api.id, aws_route_table.private_data.id], aws_route_table.private_web_b[*].id, aws_route_table.private_api_b[*].id)
+}

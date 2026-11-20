@@ -10,6 +10,10 @@ inputs:
     description: Docker build context path
     required: true
 
+  dockerfile:
+    description: Dockerfile path
+    default: app/api/Dockerfile
+
 runs:
   using: composite
   steps:
@@ -18,8 +22,9 @@ runs:
 
       env:
         IMAGE_NAME: ${{ inputs.image-name }}
+        DOCKERFILE: ${{ inputs.dockerfile }}
         BUILD_CONTEXT: ${{ inputs.build-context }}
-      run: docker build -t "$IMAGE_NAME" "$BUILD_CONTEXT"
+      run: docker build --platform linux/amd64 -f "$DOCKERFILE" -t "$IMAGE_NAME" "$BUILD_CONTEXT"
 
 
 
