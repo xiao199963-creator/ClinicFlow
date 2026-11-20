@@ -30,7 +30,7 @@ jobs:
               uses: ./.github/actions/docker-build
               with:
                   image-name: clinicflow-api:test
-                  build-context: ./app/api
+                  build-context: .
             
             - name: Validate Docker Compose
               run: docker compose config --quiet
@@ -76,8 +76,8 @@ jobs:
 
             - name: Terraform Init and Validate
               run: |
-                  for env in dev staging prod; do
-                    echo "Validating $env..."
-                    terraform -chdir=terraform/environments/$env init -backend=false
-                    terraform -chdir=terraform/environments/$env validate
+                  for root in environments/dev environments/staging environments/prod bootstrap/state bootstrap/platform bootstrap/budget; do
+                    echo "Validating $root..."
+                    terraform -chdir=terraform/$root init -backend=false
+                    terraform -chdir=terraform/$root validate
                   done

@@ -3,3 +3,5 @@ output "oidc_provider_arn" { value = aws_iam_openid_connect_provider.github.arn 
 output "github_build_role_arn" { value = aws_iam_role.github_build.arn }
 output "audit_trail_arn" { value = module.audit.trail_arn }
 output "audit_bucket_name" { value = module.audit.bucket_name }
+
+output "shared_kms_key_arn" { value = module.ecr.shared_kms_key_arn }

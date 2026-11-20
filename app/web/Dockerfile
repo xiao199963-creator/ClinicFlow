@@ -1,4 +1,4 @@
-FROM nginx:1.28-alpine
+FROM nginx:1.30.7-alpine3.24@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
 ENV PORT=8080 LOCAL_STAFF_ACCESS=0 \
     NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1 NGINX_ENVSUBST_OUTPUT_DIR=/tmp
 COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template

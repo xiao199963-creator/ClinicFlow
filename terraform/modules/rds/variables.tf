@@ -30,13 +30,13 @@ variable "log_kms_key_arn" {
 
 variable "instance_count" {
   type        = number
-  description = "Aurora instances: production requires two"
+  description = "One writer, optionally a reader"
   default     = 1
 }
 
 variable "instance_class" {
   type        = string
-  description = "Aurora instance type"
+  description = "Legacy provisioned default; set db.serverless with scaling after migration approval"
   default     = "db.t4g.medium"
 }
 
@@ -56,4 +56,17 @@ variable "log_retention_days" {
   type        = number
   description = "Database log retention"
   default     = 30
+}
+
+variable "backup_retention_days" { type = number }
+variable "skip_final_snapshot" { type = bool }
+variable "final_snapshot_identifier" { type = string }
+variable "delete_automated_backups" { type = bool }
+variable "serverlessv2_scaling" {
+  type    = object({ min_capacity = number, max_capacity = number, seconds_until_auto_pause = optional(number, 300) })
+  default = null
+  validation {
+    condition     = var.serverlessv2_scaling == null ? true : (var.serverlessv2_scaling.min_capacity >= 0 && var.serverlessv2_scaling.max_capacity >= 1 && var.serverlessv2_scaling.min_capacity <= var.serverlessv2_scaling.max_capacity && var.serverlessv2_scaling.seconds_until_auto_pause >= 300 && var.serverlessv2_scaling.seconds_until_auto_pause <= 86400)
+    error_message = "Use an ordered capacity range and an auto-pause interval of 300–86400 seconds."
+  }
 }

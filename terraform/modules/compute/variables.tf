@@ -44,3 +44,14 @@ variable "log_retention_days" {
   type    = number
   default = 30
 }
+
+variable "container_insights_enabled" {
+  type    = bool
+  default = false
+}
+variable "minimum_task_count" {
+  type    = number
+  default = 1
+}
+
+variable "master_secret_arn" { type = string }
