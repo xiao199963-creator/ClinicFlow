@@ -1,0 +1,42 @@
+worker_processes auto;
+pid /tmp/nginx.pid;
+error_log /dev/stderr warn;
+events { worker_connections 1024; }
+http {
+    include /etc/nginx/mime.types;
+    client_body_temp_path /tmp/client_body;
+    proxy_temp_path /tmp/proxy;
+    fastcgi_temp_path /tmp/fastcgi;
+    uwsgi_temp_path /tmp/uwsgi;
+    scgi_temp_path /tmp/scgi;
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=30s ipv6=off;
+    log_format basic '$request_method $uri $status';
+    access_log /dev/stdout basic;
+
+    # Only the loopback-bound development stack enables the three staff routes.
+    map "$request_method:$uri" $allowed {
+        default                          0;
+        "GET:/"                          1;
+        "GET:/index.html"                1;
+        "GET:/health"                    1;
+        "GET:/api/clinics"               1;
+        "GET:/api/slots"                 1;
+        "POST:/api/bookings"             1;
+        "GET:/schedule.html"             ${LOCAL_STAFF_ACCESS};
+        "GET:/api/bookings"              ${LOCAL_STAFF_ACCESS};
+        ~^PATCH:/api/bookings/[0-9]+$    ${LOCAL_STAFF_ACCESS};
+    }
+
+    server {
+        listen ${PORT};
+        root /usr/share/nginx/html;
+        add_header Cache-Control no-store always;
+        if ($allowed != 1) { return 403; }
+        location = /health { return 200 "ok\n"; }
+        location /api/ {
+            set $api_origin "${API_UPSTREAM}";
+            proxy_pass $api_origin$uri$is_args$args;
+        }
+        location / { try_files $uri /index.html; }
+    }
+}

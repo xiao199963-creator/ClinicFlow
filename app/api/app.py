@@ -4,6 +4,7 @@ import logging
 import os
 import sys
 
+import boto3
 import pymysql
 from flask import Flask, jsonify, request
 
@@ -38,18 +39,34 @@ app = Flask(__name__)
 
 
 def get_conn():
+    host = os.environ["DB_HOST"]
+    port = int(os.environ.get("DB_PORT", "3306"))
+    user = os.environ["DB_USER"]
     ca = os.environ.get("DB_SSL_CA")
-    ssl_options = {"ca": ca} if ca else None
+    mode = os.environ.get("DB_AUTH_MODE", "password")
+    auth = {}
+    if mode == "iam":
+        if not ca:
+            raise ValueError("IAM database authentication requires DB_SSL_CA")
+        rds = boto3.client("rds", region_name=os.environ["AWS_REGION"])
+        password = rds.generate_db_auth_token(DBHostname=host, Port=port, DBUsername=user)
+        auth["auth_plugin_map"] = {"mysql_clear_password": None}
+    elif mode == "password" and APP_ENV == "local":
+        password = os.environ["DB_PASSWORD"]
+    else:
+        raise ValueError("Use IAM database authentication on AWS")
+    if ca:
+        auth.update(ssl_ca=ca, ssl_verify_cert=True, ssl_verify_identity=True)
     return pymysql.connect(
-        host=os.environ["DB_HOST"],
-        port=int(os.environ.get("DB_PORT", "3306")),
-        user=os.environ["DB_USER"],
-        password=os.environ["DB_PASSWORD"],
+        host=host,
+        port=port,
+        user=user,
+        password=password,
         database=os.environ.get("DB_NAME", "clinicflow"),
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
         connect_timeout=5,
-        ssl=ssl_options,
+        **auth,
     )
 
 
