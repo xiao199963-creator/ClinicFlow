@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+**/.terraform
+**/*.tfstate*
+**/*.tfvars
+**/__pycache__
+.history
+*.pdf

@@ -51,10 +51,12 @@ def get_conn():
         rds = boto3.client("rds", region_name=os.environ["AWS_REGION"])
         password = rds.generate_db_auth_token(DBHostname=host, Port=port, DBUsername=user)
         auth["auth_plugin_map"] = {"mysql_clear_password": None}
-    elif mode == "password" and APP_ENV == "local":
+    elif mode == "password":
+        if APP_ENV != "local" and not ca:
+            raise ValueError("AWS password authentication requires DB_SSL_CA")
         password = os.environ["DB_PASSWORD"]
     else:
-        raise ValueError("Use IAM database authentication on AWS")
+        raise ValueError("Unsupported DB_AUTH_MODE")
     if ca:
         auth.update(ssl_ca=ca, ssl_verify_cert=True, ssl_verify_identity=True)
     return pymysql.connect(

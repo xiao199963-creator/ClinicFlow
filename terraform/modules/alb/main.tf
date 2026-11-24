@@ -8,7 +8,7 @@ locals {
 # ALB access log delivery supports SSE-S3, not a customer KMS key.
 resource "aws_s3_bucket" "access_logs" {
   bucket        = "clinicflow-${var.account_id}-${var.environment}-${var.aws_region}-alb"
-  force_destroy = var.environment != "prod"
+  force_destroy = var.access_logs_force_destroy
 }
 resource "aws_s3_bucket_public_access_block" "access_logs" {
   bucket                  = aws_s3_bucket.access_logs.id
@@ -35,7 +35,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_logs" {
     id     = "log-retention"
     status = "Enabled"
     filter { prefix = "" }
-    expiration { days = var.environment == "prod" ? 365 : 30 }
+    expiration { days = var.access_logs_retention_days }
     noncurrent_version_expiration { noncurrent_days = 30 }
     abort_incomplete_multipart_upload { days_after_initiation = 7 }
   }
@@ -78,7 +78,7 @@ resource "aws_lb_target_group" "main" {
   deregistration_delay = 30
   health_check {
     enabled             = true
-    path                = "/health"
+    path                = each.key == "web" ? var.web_health_check_path : "/health"
     protocol            = "HTTP"
     port                = "traffic-port"
     matcher             = "200"

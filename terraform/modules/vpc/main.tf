@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
     Name        = "clinicflow-${var.environment}-vpc"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 
 }
@@ -17,12 +17,12 @@ resource "aws_vpc" "main" {
 locals {
   public_subnets = {
     public_a = {
-      cidr_number = 1
+      cidr_number = var.subnet_offsets.public[0]
       az          = var.availability_zones[0]
     }
 
     public_b = {
-      cidr_number = 2
+      cidr_number = var.subnet_offsets.public[1]
       az          = var.availability_zones[1]
     }
   }
@@ -38,19 +38,19 @@ resource "aws_subnet" "public" {
     Name        = "clinicflow-${var.environment}-${each.key}"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
 locals {
   private_web_subnets = {
     web_a = {
-      cidr_number = 3
+      cidr_number = var.subnet_offsets.web[0]
       az          = var.availability_zones[0]
     }
 
     web_b = {
-      cidr_number = 4
+      cidr_number = var.subnet_offsets.web[1]
       az          = var.availability_zones[1]
     }
   }
@@ -66,19 +66,19 @@ resource "aws_subnet" "private_web" {
     Name        = "clinicflow-${var.environment}-${each.key}"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
 locals {
   private_api_subnets = {
     api_a = {
-      cidr_number = 5
+      cidr_number = var.subnet_offsets.api[0]
       az          = var.availability_zones[0]
     }
 
     api_b = {
-      cidr_number = 6
+      cidr_number = var.subnet_offsets.api[1]
       az          = var.availability_zones[1]
     }
   }
@@ -95,19 +95,19 @@ resource "aws_subnet" "private_api" {
     Name        = "clinicflow-${var.environment}-${each.key}"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
 locals {
   private_data_subnets = {
     data_a = {
-      cidr_number = 7
+      cidr_number = var.subnet_offsets.data[0]
       az          = var.availability_zones[0]
     }
 
     data_b = {
-      cidr_number = 8
+      cidr_number = var.subnet_offsets.data[1]
       az          = var.availability_zones[1]
     }
   }
@@ -124,7 +124,7 @@ resource "aws_subnet" "private_data" {
     Name        = "clinicflow-${var.environment}-${each.key}"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -135,7 +135,7 @@ resource "aws_internet_gateway" "main" {
     Name        = "clinicflow-${var.environment}-igw"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -151,7 +151,7 @@ resource "aws_route_table" "public" {
     Name        = "clinicflow-${var.environment}-public-rt"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -170,7 +170,7 @@ resource "aws_route_table" "private_data" {
     Name        = "clinicflow-${var.environment}-private-data-rt"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -192,7 +192,7 @@ resource "aws_route_table" "private_web" {
     Name        = "clinicflow-${var.environment}-web-rt"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -200,7 +200,7 @@ resource "aws_route_table_association" "private_web" {
   for_each = aws_subnet.private_web
 
   subnet_id      = each.value.id
-  route_table_id = var.high_availability && each.key == "web_b" ? aws_route_table.private_web_b[0].id : aws_route_table.private_web.id
+  route_table_id = var.nat_gateway_count == 2 && each.key == "web_b" ? aws_route_table.private_web_b[0].id : aws_route_table.private_web.id
 }
 
 resource "aws_route_table" "private_api" {
@@ -214,7 +214,7 @@ resource "aws_route_table" "private_api" {
     Name        = "clinicflow-${var.environment}-api-rt"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -222,7 +222,7 @@ resource "aws_route_table_association" "private_api" {
   for_each = aws_subnet.private_api
 
   subnet_id      = each.value.id
-  route_table_id = var.high_availability && each.key == "api_b" ? aws_route_table.private_api_b[0].id : aws_route_table.private_api.id
+  route_table_id = var.nat_gateway_count == 2 && each.key == "api_b" ? aws_route_table.private_api_b[0].id : aws_route_table.private_api.id
 }
 
 resource "aws_eip" "nat_a" {
@@ -232,7 +232,7 @@ resource "aws_eip" "nat_a" {
     Name        = "clinicflow-${var.environment}-nat-eip-a"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 }
 
@@ -244,20 +244,20 @@ resource "aws_nat_gateway" "nat_a" {
     Name        = "clinicflow-${var.environment}-nat-a"
     Project     = "clinicflow"
     Environment = var.environment
-    ManagedBy   = "Terraform"
+    ManagedBy   = "terraform"
   }
 
   depends_on = [aws_internet_gateway.main]
 }
 
 resource "aws_eip" "nat_b" {
-  count  = var.high_availability ? 1 : 0
+  count  = var.nat_gateway_count == 2 ? 1 : 0
   domain = "vpc"
   tags   = { Name = "clinicflow-${var.environment}-nat-eip-b" }
 }
 
 resource "aws_nat_gateway" "nat_b" {
-  count         = var.high_availability ? 1 : 0
+  count         = var.nat_gateway_count == 2 ? 1 : 0
   allocation_id = aws_eip.nat_b[0].id
   subnet_id     = aws_subnet.public["public_b"].id
   tags          = { Name = "clinicflow-${var.environment}-nat-b" }
@@ -265,7 +265,7 @@ resource "aws_nat_gateway" "nat_b" {
 }
 
 resource "aws_route_table" "private_web_b" {
-  count  = var.high_availability ? 1 : 0
+  count  = var.nat_gateway_count == 2 ? 1 : 0
   vpc_id = aws_vpc.main.id
   route {
     cidr_block     = "0.0.0.0/0"
@@ -275,7 +275,7 @@ resource "aws_route_table" "private_web_b" {
 }
 
 resource "aws_route_table" "private_api_b" {
-  count  = var.high_availability ? 1 : 0
+  count  = var.nat_gateway_count == 2 ? 1 : 0
   vpc_id = aws_vpc.main.id
   route {
     cidr_block     = "0.0.0.0/0"

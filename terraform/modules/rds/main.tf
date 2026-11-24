@@ -21,11 +21,19 @@ resource "aws_rds_cluster_parameter_group" "main" {
     name  = "server_audit_events"
     value = "CONNECT"
   }
+  parameter {
+    name  = "slow_query_log"
+    value = "1"
+  }
+  parameter {
+    name  = "log_output"
+    value = "FILE"
+  }
   lifecycle { create_before_destroy = true }
 }
 
 resource "aws_cloudwatch_log_group" "database" {
-  for_each          = toset(["audit", "error"])
+  for_each          = toset(["audit", "error", "slowquery"])
   name              = "/aws/rds/cluster/${local.name}/${each.key}"
   kms_key_id        = var.log_kms_key_arn
   retention_in_days = var.log_retention_days
@@ -47,22 +55,31 @@ resource "aws_rds_cluster" "main" {
   db_subnet_group_name                = aws_db_subnet_group.main.name
   db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.main.name
   vpc_security_group_ids              = [var.security_group_id]
-  backup_retention_period             = 7
+  backup_retention_period             = var.backup_retention_days
   preferred_backup_window             = "16:00-17:00"
   preferred_maintenance_window        = "sun:18:00-sun:19:00"
-  enabled_cloudwatch_logs_exports     = ["audit", "error"]
+  enabled_cloudwatch_logs_exports     = ["audit", "error", "slowquery"]
   deletion_protection                 = var.deletion_protection
-  skip_final_snapshot                 = var.environment != "prod"
-  final_snapshot_identifier           = "${local.name}-final"
+  skip_final_snapshot                 = var.skip_final_snapshot
+  final_snapshot_identifier           = var.final_snapshot_identifier
   copy_tags_to_snapshot               = true
-  delete_automated_backups            = var.environment != "prod"
+  delete_automated_backups            = var.delete_automated_backups
   apply_immediately                   = false
   depends_on                          = [aws_cloudwatch_log_group.database]
 
+  dynamic "serverlessv2_scaling_configuration" {
+    for_each = var.serverlessv2_scaling == null ? [] : [var.serverlessv2_scaling]
+    content {
+      min_capacity             = serverlessv2_scaling_configuration.value.min_capacity
+      max_capacity             = serverlessv2_scaling_configuration.value.max_capacity
+      seconds_until_auto_pause = serverlessv2_scaling_configuration.value.min_capacity == 0 ? serverlessv2_scaling_configuration.value.seconds_until_auto_pause : null
+    }
+  }
+
   lifecycle {
     precondition {
-      condition     = var.instance_count >= 1 && var.instance_count <= 2 && (var.environment != "prod" || (var.instance_count == 2 && var.deletion_protection))
-      error_message = "Production requires two Aurora instances and deletion protection."
+      condition     = contains([1, 2], var.instance_count) && ((var.instance_class == "db.serverless") == (var.serverlessv2_scaling != null))
+      error_message = "Use one writer or a writer and reader; db.serverless requires a scaling configuration, provisioned instances must omit it."
     }
   }
 }

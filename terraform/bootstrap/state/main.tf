@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "terraform_state" {
 
   tags = {
     Project   = "clinicflow"
-    ManagedBy = "Terraform"
+    ManagedBy = "terraform"
     Purpose   = "TerraformState"
   }
 }
@@ -32,7 +32,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.shared_kms_key_arn == null ? "AES256" : "aws:kms"
+      kms_master_key_id = var.shared_kms_key_arn
     }
   }
 }

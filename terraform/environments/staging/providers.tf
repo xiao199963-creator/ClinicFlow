@@ -5,8 +5,9 @@ provider "aws" {
     tags = {
       Project     = "clinicflow"
       Environment = var.environment
-      ManagedBy   = "Terraform"
+      ManagedBy   = "terraform"
       Owner       = var.owner
+      CostCentre  = var.cost_centre
     }
   }
 }

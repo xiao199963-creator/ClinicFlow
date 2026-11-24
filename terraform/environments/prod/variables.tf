@@ -36,14 +36,6 @@ variable "availability_zones" {
     error_message = "Two distinct AZs in the selected region are required."
   }
 }
-variable "high_availability" {
-  type    = bool
-  default = false
-  validation {
-    condition     = var.environment != "prod" || var.high_availability
-    error_message = "Production requires an independent NAT in each AZ."
-  }
-}
 variable "budget_name" {
   type        = string
   default     = "clinicflow-budget"
@@ -180,5 +172,81 @@ variable "bootstrap_operator_role_arn" {
   validation {
     condition     = startswith(var.bootstrap_operator_role_arn, "arn:aws:iam::${var.aws_account_id}:role/") && can(regex("^arn:aws:iam::[0-9]{12}:role/[A-Za-z0-9_+=,.@/-]+$", var.bootstrap_operator_role_arn))
     error_message = "Provide the exact IAM role ARN of the authorized database operator."
+  }
+}
+
+variable "cost_centre" {
+  type    = string
+  default = "capstone"
+}
+variable "database_backup_retention_days" {
+  type = number
+  validation {
+    condition     = var.database_backup_retention_days >= 1 && var.database_backup_retention_days <= 35 && floor(var.database_backup_retention_days) == var.database_backup_retention_days && (var.environment != "prod" || var.database_backup_retention_days == 7)
+    error_message = "Use 1–35 days; production requires seven days."
+  }
+}
+variable "database_skip_final_snapshot" {
+  type = bool
+  validation {
+    condition     = var.environment != "prod" || !var.database_skip_final_snapshot
+    error_message = "Production must retain a final snapshot."
+  }
+}
+variable "database_final_snapshot_identifier" { type = string }
+variable "database_delete_automated_backups" {
+  type = bool
+  validation {
+    condition     = var.environment != "prod" || !var.database_delete_automated_backups
+    error_message = "Production automated backups must survive cluster deletion."
+  }
+}
+variable "database_serverlessv2_scaling" {
+  type    = object({ min_capacity = number, max_capacity = number, seconds_until_auto_pause = optional(number, 300) })
+  default = null
+}
+variable "access_logs_force_destroy" {
+  type = bool
+  validation {
+    condition     = var.environment != "prod" || !var.access_logs_force_destroy
+    error_message = "Production access logs must not be force-deleted."
+  }
+}
+variable "access_logs_retention_days" {
+  type = number
+  validation {
+    condition     = var.access_logs_retention_days >= 1 && (var.environment != "prod" || var.access_logs_retention_days >= 365)
+    error_message = "Retain access logs for at least one day, 365 in production."
+  }
+}
+variable "container_insights_enabled" { type = bool }
+variable "minimum_task_count" { type = number }
+
+variable "enable_interface_endpoints" { type = bool }
+
+variable "nat_gateway_count" {
+  type = number
+  validation {
+    condition     = contains([1, 2], var.nat_gateway_count) && (var.environment != "prod" || var.nat_gateway_count == 2)
+    error_message = "Use 1 or 2 NAT gateways, and 2 in production."
+  }
+}
+variable "subnet_offsets" {
+  type = object({ public = list(number), web = list(number), api = list(number), data = list(number) })
+  # Preserve existing network until the resource migration is approved.
+  default = { public = [1, 2], web = [3, 4], api = [5, 6], data = [7, 8] }
+}
+
+variable "kms_deletion_window_days" {
+  type    = number
+  default = 30 # Keep existing setting until migration review; examples use PDF targets.
+}
+
+variable "web_health_check_path" {
+  type    = string
+  default = "/health" # Keep existing target healthy until dual-path Web image is deployed.
+  validation {
+    condition     = contains(["/health", "/healthz"], var.web_health_check_path)
+    error_message = "Use /health for transition or the final PDF path /healthz."
   }
 }
