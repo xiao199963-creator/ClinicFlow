@@ -1,0 +1,164 @@
+name: PR checks
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+        with:
+          terraform_version: 1.16.1
+          terraform_wrapper: false
+
+      - name: Install pinned lint tools
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSL -o tflint.zip https://github.com/terraform-linters/tflint/releases/download/v0.61.0/tflint_linux_amd64.zip
+          curl -fsSL -o shellcheck.tar.xz https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz
+          curl -fsSL -o hadolint https://github.com/hadolint/hadolint/releases/download/v2.15.1/hadolint-linux-x86_64
+          sha256sum -c <<'SUMS'
+          ca4e4e8cb7cc3436f2b6979e9c4fd4e2623a66fcca1ad1fe12f8669967636ae2  tflint.zip
+          8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  shellcheck.tar.xz
+          c7187db94eeeeca956519a6af171adc31453941a1e777961f6e680f697c8c507  hadolint
+          SUMS
+          mkdir lint-bin
+          unzip -q tflint.zip tflint -d lint-bin
+          tar -xJf shellcheck.tar.xz --strip-components=1 -C lint-bin shellcheck-v0.11.0/shellcheck
+          install -m 755 hadolint lint-bin/hadolint
+          echo "$RUNNER_TEMP/lint-bin" >> "$GITHUB_PATH"
+
+      - name: Lint Terraform roots and their local modules
+        run: |
+          for root in terraform/environments/* terraform/bootstrap/*; do
+            tflint --chdir="$root" --call-module-type=local
+          done
+      - run: make validate image-check
+
+  secret-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Scan complete Git history with Gitleaks 8.30.0
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSL -o gitleaks.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_x64.tar.gz
+          echo '79a3ab579b53f71efd634f3aaf7e04a0fa0cf206b7ed434638d1547a2470a66e  gitleaks.tgz' | sha256sum -c -
+          tar -xzf gitleaks.tgz gitleaks
+          test "$(git -C "$GITHUB_WORKSPACE" rev-parse --is-shallow-repository)" = false
+          printf '{"findings":{{ len . }}}\n' > count.tmpl
+          printf '[extend]\nuseDefault = true\n' > rules.toml
+          umask 077
+          diagnostic=$(mktemp)
+          trap 'rm -f "$diagnostic"' EXIT
+          status=0
+          ./gitleaks git "$GITHUB_WORKSPACE" --log-opts='--all --full-history -m' \
+            --config rules.toml --gitleaks-ignore-path "$RUNNER_TEMP" \
+            --no-banner --no-color --log-level error --redact=100 --ignore-gitleaks-allow \
+            --exit-code 10 --report-format template --report-template count.tmpl \
+            --report-path count.json >"$diagnostic" 2>&1 || status=$?
+          # Some git subprocess errors are logged even when Gitleaks returns zero.
+          if [[ -s "$diagnostic" ]]; then
+            echo "Gitleaks reported an execution error (diagnostics withheld)" >&2
+            exit 1
+          fi
+          case "$status" in
+            0) jq -e '.findings == 0' count.json >/dev/null ;;
+            10) jq -e '.findings > 0' count.json >/dev/null ;;
+            *) echo "Gitleaks failed (exit $status)" >&2; exit "$status" ;;
+          esac
+          mv count.json secret-count.json
+          cat secret-count.json
+          exit "$status"
+      - name: Upload count only
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: gitleaks-count
+          path: ${{ runner.temp }}/secret-count.json
+          retention-days: 7
+          if-no-files-found: error
+
+  iac-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install Trivy 0.76.2
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSL -o trivy.tgz https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz
+          echo 'bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf  trivy.tgz' | sha256sum -c -
+          mkdir trivy-bin
+          tar -xzf trivy.tgz -C trivy-bin trivy
+          echo "$RUNNER_TEMP/trivy-bin" >> "$GITHUB_PATH"
+      - name: Scan Terraform source and local modules
+        run: |
+          status=0
+          trivy config --misconfig-scanners terraform --severity CRITICAL --exit-code 1 \
+            --include-non-failures --tf-exclude-downloaded-modules --skip-dirs '**/.terraform' \
+            --skip-files '*.tfvars*' --ignorefile /dev/null --format json \
+            --output "$RUNNER_TEMP/iac.json" terraform || status=$?
+          jq -e 'select(any(.Results[]; .Type=="terraform" and
+              ((.MisconfSummary.Successes // 0) + (.MisconfSummary.Failures // 0) > 0))) |
+            [.Results[].Misconfigurations[]? | select(.Status=="FAIL") | .ID] |
+            {critical: length, rules: unique}' "$RUNNER_TEMP/iac.json"
+          exit "$status"
+
+  image-scan:
+    runs-on: ubuntu-24.04
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+      TRIVY_IGNOREFILE: /dev/null
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install Trivy 0.76.2
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSL -o trivy.tgz https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz
+          echo 'bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf  trivy.tgz' | sha256sum -c -
+          mkdir trivy-bin
+          tar -xzf trivy.tgz -C trivy-bin trivy
+          echo "$RUNNER_TEMP/trivy-bin" >> "$GITHUB_PATH"
+      - name: Set isolated report and database paths
+        run: |
+          echo "REPORT_DIR=$RUNNER_TEMP/images" >> "$GITHUB_ENV"
+          echo "TRIVY_CACHE=$RUNNER_TEMP/trivy-cache" >> "$GITHUB_ENV"
+      - name: Build API and Web once for linux/amd64
+        id: build
+        run: make build
+      - run: make db-update
+      - run: make -k scan
+      - name: Upload image counts, identities and scanner metadata
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: image-scan
+          path: |
+            ${{ runner.temp }}/images/*-summary.json
+            ${{ runner.temp }}/images/*-db.json
+            ${{ runner.temp }}/images/trivy-version.txt
+            ${{ runner.temp }}/images/*-exit-code.txt
+          if-no-files-found: error
+          retention-days: 7
